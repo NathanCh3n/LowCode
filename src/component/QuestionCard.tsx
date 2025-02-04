@@ -1,50 +1,49 @@
 import React, { FC } from 'react'
-import './QuestionCard.css'
+import styles from './QuestionCard.module.scss'
 
 type PropsType = {
-  id: string
+  _id: string
   title: string
   isPublished: boolean
-  publishQuestion?: (id: string) => void
-  deleteQuestion?: (id: string) => void
+  isStar: boolean
+  answerCount: number
+  createdAt: string
 }
 
-const QuestionCard: FC<PropsType> = props => {
-  const { id, title, isPublished, publishQuestion, deleteQuestion } = props
-
-  function pub(id: string) {
-    if (publishQuestion) {
-      publishQuestion(id)
-    }
-  }
-
-  function del(id: string) {
-    if (deleteQuestion) {
-      deleteQuestion(id)
-    }
-  }
-
+const QuestionCard: FC<PropsType> = (props: PropsType) => {
+  const { title, isPublished, answerCount, createdAt } = props
   return (
-    <div key={id} className="list-item">
-      <strong>{title}</strong>
-      &nbsp;
-      {/* 条件判断 */}
-      {isPublished ? <span style={{ color: 'green' }}>已发布</span> : <span>未发布</span>}
-      &nbsp;
-      <button
-        onClick={() => {
-          pub(id)
-        }}
-      >
-        发布问卷
-      </button>
-      <button
-        onClick={() => {
-          del(id)
-        }}
-      >
-        删除问卷
-      </button>
+    <div className={styles.container}>
+      <div className={styles.title}>
+        <div className={styles.left}>
+          <a href="#">{title}</a>
+        </div>
+        <div className={styles.right}>
+          {isPublished ? (
+            <span style={{ color: 'green' }}>已发布</span>
+          ) : (
+            <span>未发布</span>
+          )}
+          &nbsp;
+          <span>答卷: {answerCount}</span>
+          &nbsp;
+          <span>{createdAt}</span>
+        </div>
+      </div>
+      <div className={styles['button-container']}>
+        <div className={styles.left}>
+          <span>编辑问卷</span>
+          &nbsp;
+          <span>数据统计</span>
+        </div>
+        <div className={styles.right}>
+          <button>标星</button>
+          &nbsp;
+          <button>复制</button>
+          &nbsp;
+          <button>删除</button>
+        </div>
+      </div>
     </div>
   )
 }

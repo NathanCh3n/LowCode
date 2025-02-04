@@ -1,12 +1,9 @@
 import React from 'react'
-import List2 from './List2'
+import { RouterProvider } from 'react-router-dom'
+import routerConfig from './router'
 
 function App() {
-  return (
-    <>
-      <List2 />
-    </>
-  )
+  return <RouterProvider router={routerConfig}></RouterProvider>
 }
 
 export default App
