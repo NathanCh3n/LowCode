@@ -50,7 +50,6 @@ const ManageLayout: FC = () => {
         <div className={styles.right}>
           <Outlet />
         </div>
-        <div>manageLayout footer</div>
       </div>
     </>
   )

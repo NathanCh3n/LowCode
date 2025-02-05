@@ -11,6 +11,7 @@ import {
 } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import styles from './common.module.scss'
+import ListSearch from '../../component/ListSearch'
 
 const { Title } = Typography
 const { confirm } = Modal
@@ -121,7 +122,9 @@ const Star: FC = () => {
         <div className={styles.left}>
           <Title level={3}>回收站</Title>
         </div>
-        <div className={styles.right}> (搜索) </div>
+        <div className={styles.right}>
+          <ListSearch />
+        </div>
       </div>
       <div className={styles.content}>
         {questionList.length !== 0 ? (
