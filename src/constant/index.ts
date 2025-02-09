@@ -3,4 +3,4 @@
  * @auther Nathan
  */
 
-export const LIST_SEARCH_PLACEHOLDER = 'keyword'
+export const LIST_SEARCH_PARAM_KEY = 'keyword'

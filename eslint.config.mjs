@@ -20,4 +20,10 @@ export default [
       'prettier/prettier': 'warn', // 显示 Prettier 格式化建议
     },
   },
+  // ts any爆红处理
+  {
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
 ]

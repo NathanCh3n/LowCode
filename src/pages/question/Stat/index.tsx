@@ -1,11 +1,23 @@
 import React, { FC } from 'react'
+import { useParams } from 'react-router-dom'
+import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
 
-const Stat: FC = () => {
+const Edit: FC = () => {
+  const { id = '' } = useParams()
+  const { loading, data } = useLoadQuestionData()
+
   return (
     <div>
-      <h1>Stat</h1>
+      <h1>Stat {id}</h1>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <div>
+          <p>{JSON.stringify(data)}</p>
+        </div>
+      )}
     </div>
   )
 }
 
-export default Stat
+export default Edit

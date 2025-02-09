@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import type { ChangeEvent } from 'react'
 import { Input } from 'antd'
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
-import { LIST_SEARCH_PLACEHOLDER } from '../constant'
+import { LIST_SEARCH_PARAM_KEY } from '../constant'
 
 const { Search } = Input
 
@@ -12,7 +12,7 @@ const ListSearch: FC = () => {
   const [value, setValue] = useState('')
   const [searchParams] = useSearchParams()
   useEffect(() => {
-    const keyword = searchParams.get(LIST_SEARCH_PLACEHOLDER) || ''
+    const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || ''
     setValue(keyword)
     // 每当 searchParams 变化时，更新 value
   }, [searchParams])
@@ -20,7 +20,7 @@ const ListSearch: FC = () => {
   function handleSearch(value: string) {
     nav({
       pathname,
-      search: `${LIST_SEARCH_PLACEHOLDER}=${value}`,
+      search: `${LIST_SEARCH_PARAM_KEY}=${value}`,
     })
   }
 

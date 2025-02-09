@@ -8,42 +8,48 @@ import {
   Button,
   Modal,
   message,
+  Spin,
 } from 'antd'
+import { useTitle } from 'ahooks'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import styles from './common.module.scss'
 import ListSearch from '../../component/ListSearch'
+import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 
 const { Title } = Typography
 const { confirm } = Modal
-const rawQuestionList = [
-  {
-    _id: 'q1',
-    title: '问卷1',
-    isPublished: true,
-    isStar: true,
-    answerCount: 0,
-    createdAt: '3月10日 13:23',
-  },
-  {
-    _id: 'q2',
-    title: '问卷2',
-    isPublished: false,
-    isStar: true,
-    answerCount: 0,
-    createdAt: '3月10日 13:23',
-  },
-  {
-    _id: 'q3',
-    title: '问卷3',
-    isPublished: false,
-    isStar: true,
-    answerCount: 0,
-    createdAt: '3月10日 13:23',
-  },
-]
+
+// const rawQuestionList = [
+//   {
+//     _id: 'q1',
+//     title: '问卷1',
+//     isPublished: true,
+//     isStar: true,
+//     answerCount: 0,
+//     createdAt: '3月10日 13:23',
+//   },
+//   {
+//     _id: 'q2',
+//     title: '问卷2',
+//     isPublished: false,
+//     isStar: true,
+//     answerCount: 0,
+//     createdAt: '3月10日 13:23',
+//   },
+//   {
+//     _id: 'q3',
+//     title: '问卷3',
+//     isPublished: false,
+//     isStar: true,
+//     answerCount: 0,
+//     createdAt: '3月10日 13:23',
+//   },
+// ]
 
 const Star: FC = () => {
-  const [questionList] = useState(rawQuestionList)
+  useTitle('回收站')
+  const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true })
+  const { list = [] } = data
   const [selectionIds, setSelectionIds] = useState<string[]>([])
   const tableColumns = [
     {
@@ -102,10 +108,10 @@ const Star: FC = () => {
         </Space>
       </div>
       <Table
-        dataSource={questionList}
+        dataSource={list}
         columns={tableColumns}
         pagination={false}
-        rowKey={item => item._id}
+        rowKey={(item: { _id: string }) => item._id}
         rowSelection={{
           type: 'checkbox',
           onChange: selectedRowKeys => {
@@ -127,13 +133,15 @@ const Star: FC = () => {
         </div>
       </div>
       <div className={styles.content}>
-        {questionList.length !== 0 ? (
-          TableElem
-        ) : (
-          <Empty description={'暂无数据'} />
+        {loading && (
+          <div style={{ textAlign: 'center', padding: '20px' }}>
+            <Spin />
+          </div>
         )}
+        {!loading && list.length === 0 && <Empty description="暂无数据" />}
+        {!loading && list.length !== 0 && TableElem}
       </div>
-      {questionList.length > 0 && <div className={styles.footer}>分页</div>}
+      {!loading && list.length > 0 && <div className={styles.footer}>分页</div>}
     </>
   )
 }
