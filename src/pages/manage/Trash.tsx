@@ -15,6 +15,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons'
 import styles from './common.module.scss'
 import ListSearch from '../../component/ListSearch'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
+import ListPage from '../../component/ListPage'
 
 const { Title } = Typography
 const { confirm } = Modal
@@ -49,7 +50,7 @@ const { confirm } = Modal
 const Star: FC = () => {
   useTitle('回收站')
   const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true })
-  const { list = [] } = data
+  const { list = [], total = 0 } = data
   const [selectionIds, setSelectionIds] = useState<string[]>([])
   const tableColumns = [
     {
@@ -141,7 +142,11 @@ const Star: FC = () => {
         {!loading && list.length === 0 && <Empty description="暂无数据" />}
         {!loading && list.length !== 0 && TableElem}
       </div>
-      {!loading && list.length > 0 && <div className={styles.footer}>分页</div>}
+      {!loading && list.length > 0 && (
+        <div className={styles.footer}>
+          <ListPage total={total} />
+        </div>
+      )}
     </>
   )
 }

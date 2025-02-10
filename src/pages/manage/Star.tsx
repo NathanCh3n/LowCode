@@ -5,40 +5,14 @@ import styles from './common.module.scss'
 import { useTitle } from 'ahooks'
 import ListSearch from '../../component/ListSearch'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
+import ListPage from '../../component/ListPage'
 
 const { Title } = Typography
-
-// const rawQuestionList = [
-//   {
-//     _id: 'q1',
-//     title: '问卷1',
-//     isPublished: false,
-//     isStar: true,
-//     answerCount: 0,
-//     createdAt: '3月10日 13:23',
-//   },
-//   {
-//     _id: 'q2',
-//     title: '问卷2',
-//     isPublished: false,
-//     isStar: true,
-//     answerCount: 0,
-//     createdAt: '3月10日 13:23',
-//   },
-//   {
-//     _id: 'q3',
-//     title: '问卷3',
-//     isPublished: false,
-//     isStar: true,
-//     answerCount: 0,
-//     createdAt: '3月10日 13:23',
-//   },
-// ]
 
 const Star: FC = () => {
   useTitle('星标问卷')
   const { data = {}, loading } = useLoadQuestionListData({ isStar: true })
-  const { list = [] } = data
+  const { list = [], total = 0 } = data
 
   return (
     <>
@@ -64,7 +38,11 @@ const Star: FC = () => {
             return <QuestionCard key={_id} {...question} />
           })}
       </div>
-      {!loading && list.length > 0 && <div className={styles.footer}>分页</div>}
+      {!loading && list.length > 0 && (
+        <div className={styles.footer}>
+          <ListPage total={total} />
+        </div>
+      )}
     </>
   )
 }

@@ -1,45 +1,95 @@
-import React, { FC } from 'react'
-import { Typography, Spin } from 'antd'
+import React, { FC, useState, useEffect, useRef, useMemo } from 'react'
+import { Typography, Spin, Empty } from 'antd'
 import styles from './common.module.scss'
 import QuestionCard from '../../component/QuestionCard'
 import ListSearch from '../../component/ListSearch'
-import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
-import { useTitle } from 'ahooks'
+import { useSearchParams } from 'react-router-dom'
+import { useDebounceFn, useTitle } from 'ahooks'
+import { LIST_SEARCH_PARAM_KEY, LIST_PAGE_SIZE } from '../../constant'
+import { getQuestionListService } from '../../services/question'
+import { useRequest } from 'ahooks'
 
 const { Title } = Typography
 
-// const rawQuestionList = [
-//   {
-//     _id: 'q1',
-//     title: '问卷1',
-//     isPublished: false,
-//     isStar: true,
-//     answerCount: 0,
-//     createdAt: '3月10日 13:23',
-//   },
-//   {
-//     _id: 'q2',
-//     title: '问卷2',
-//     isPublished: true,
-//     isStar: false,
-//     answerCount: 0,
-//     createdAt: '3月11日 13:23',
-//   },
-//   {
-//     _id: 'q3',
-//     title: '问卷3',
-//     isPublished: false,
-//     isStar: false,
-//     answerCount: 0,
-//     createdAt: '3月12日 13:23',
-//   },
-// ]
-
 const List: FC = () => {
   useTitle('我的问卷')
+  const [started, setStarted] = useState(false) // 是否已经开始加载（防抖，有延迟时间）
+  const [page, setPage] = useState(1) // List 内部的数据，不在 url 参数上体现
+  const [list, setList] = useState([]) // 全部的列表数据，上划加载更多，累计
+  const [total, setTotal] = useState(0)
+  const haveMoreData = total > list.length
+  const [searchParams] = useSearchParams() // url 参数，没有 page 参数，但有 keyword 参数
+  const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || ''
 
-  const { data = {}, loading } = useLoadQuestionListData()
-  const { list = [] } = data
+  useEffect(() => {
+    setStarted(false)
+    setPage(1)
+    setList([])
+    setTotal(0)
+  }, [keyword])
+
+  const { run: load, loading } = useRequest(
+    async () => {
+      const data = await getQuestionListService({
+        page,
+        pageSize: LIST_PAGE_SIZE,
+        keyword,
+      })
+      return data
+    },
+    {
+      manual: true,
+      onSuccess: res => {
+        const { list: l = [], total = 0 } = res
+        setList(list.concat(l)) // 累计
+        setTotal(total)
+        setPage(page + 1)
+      },
+    }
+  )
+
+  // LoadMore Elem
+  const LoadMoreContentElem = useMemo(() => {
+    if (!started || loading) return <Spin />
+    if (total === 0) return <Empty>暂无数据</Empty>
+    if (!haveMoreData) return <span>没有更多了...</span>
+    return <span>开始加载下一页</span>
+  }, [started, loading, haveMoreData])
+
+  // 触发加载更多
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { run: tryLoadMore } = useDebounceFn(
+    () => {
+      const elem = containerRef.current
+      if (elem === null) return
+      const domRect = elem.getBoundingClientRect()
+      if (domRect === null) return
+      const { bottom } = domRect
+      if (bottom <= document.documentElement.clientHeight) {
+        console.log('执行加载...')
+        load()
+        setStarted(true)
+      }
+    },
+    {
+      wait: 1000,
+    }
+  )
+
+  // 当页面加载，或者url参数（keyword）变化时，触发加载
+  useEffect(() => {
+    tryLoadMore()
+  }, [searchParams])
+  // 当页面滚动时，要尝试触发加载
+  useEffect(() => {
+    if (haveMoreData) {
+      window.addEventListener('scroll', tryLoadMore)
+    }
+    // 解除绑定事件，重要！！
+    return () => {
+      window.removeEventListener('scroll', tryLoadMore)
+    }
+  }, [searchParams, haveMoreData])
 
   return (
     <>
@@ -52,19 +102,15 @@ const List: FC = () => {
         </div>
       </div>
       <div className={styles.content}>
-        {loading && (
-          <div style={{ textAlign: 'center', padding: '20px' }}>
-            <Spin />
-          </div>
-        )}
-        {!loading &&
-          list.length > 0 &&
+        {list.length > 0 &&
           list.map((question: any) => {
             const { _id } = question
             return <QuestionCard key={_id} {...question} />
           })}
       </div>
-      <div className={styles.footer}>loadMore... 上划加载更多...</div>
+      <div className={styles.footer}>
+        <div ref={containerRef}>{LoadMoreContentElem}</div>
+      </div>
     </>
   )
 }
