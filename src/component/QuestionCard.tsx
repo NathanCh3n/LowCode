@@ -10,7 +10,10 @@ import {
   ExclamationCircleOutlined,
 } from '@ant-design/icons'
 import { useRequest } from 'ahooks'
-import { updateQuestionService } from '../services/question'
+import {
+  updateQuestionService,
+  duplicateQuestionService,
+} from '../services/question'
 import styles from './QuestionCard.module.scss'
 
 const { confirm } = Modal
@@ -24,24 +27,11 @@ type PropsType = {
   createdAt: string
 }
 
-function duplicate() {
-  message.success('复制成功')
-}
-
-function del() {
-  confirm({
-    title: '删除问卷',
-    icon: <ExclamationCircleOutlined />,
-    onOk() {
-      message.success('删除成功')
-    },
-  })
-}
-
 const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const { _id, title, isPublished, isStar, answerCount, createdAt } = props
   // 修改 标星
   const [isStarState, setIsStarState] = useState(isStar)
+  const nav = useNavigate()
   const { loading: changeStarLoading, run: changeStar } = useRequest(
     async () => {
       await updateQuestionService(_id, { isStar: !isStarState })
@@ -54,7 +44,30 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
       },
     }
   )
-  const nav = useNavigate()
+  // 复制功能实现
+  const { loading: duplicateLoading, run: duplicate } = useRequest(
+    async () => {
+      const data = await duplicateQuestionService(_id)
+      return data
+    },
+    {
+      manual: true,
+      onSuccess: (res: any) => {
+        message.success('复制成功')
+        nav(`/question/edit/${res.id}`)
+      },
+    }
+  )
+  // 删除功能实现
+  function del() {
+    confirm({
+      title: '删除问卷',
+      icon: <ExclamationCircleOutlined />,
+      onOk() {
+        message.success('删除成功')
+      },
+    })
+  }
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -122,7 +135,12 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               cancelText="取消"
               onConfirm={duplicate}
             >
-              <Button type="text" size="small" icon={<CopyOutlined />}>
+              <Button
+                type="text"
+                size="small"
+                icon={<CopyOutlined />}
+                disabled={duplicateLoading}
+              >
                 复制
               </Button>
             </Popconfirm>
