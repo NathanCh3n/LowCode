@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Button, Divider, Space, Tag, message, Modal, Popconfirm } from 'antd'
 import {
@@ -9,6 +9,8 @@ import {
   StarOutlined,
   ExclamationCircleOutlined,
 } from '@ant-design/icons'
+import { useRequest } from 'ahooks'
+import { updateQuestionService } from '../services/question'
 import styles from './QuestionCard.module.scss'
 
 const { confirm } = Modal
@@ -38,16 +40,32 @@ function del() {
 
 const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const { _id, title, isPublished, isStar, answerCount, createdAt } = props
+  // 修改 标星
+  const [isStarState, setIsStarState] = useState(isStar)
+  const { loading: changeStarLoading, run: changeStar } = useRequest(
+    async () => {
+      await updateQuestionService(_id, { isStar: !isStarState })
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        setIsStarState(!isStarState)
+        message.success('已更新')
+      },
+    }
+  )
   const nav = useNavigate()
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         <div className={styles.left}>
           <Link
-            to={isPublished ? `/question/stat/${_id}` : `/question/edit/${_id}`}
+            to={
+              isPublished ? `/quest ion/stat/${_id}` : `/question/edit/${_id}`
+            }
           >
             <Space>
-              {isStar && <StarOutlined style={{ color: 'red' }} />}
+              {isStarState && <StarOutlined style={{ color: 'red' }} />}
               {title}
             </Space>
           </Link>
@@ -89,8 +107,14 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
         </div>
         <div className={styles.right}>
           <Space>
-            <Button type="text" size="small" icon={<StarOutlined />}>
-              {isStar ? '取消星标' : '星标'}
+            <Button
+              type="text"
+              size="small"
+              icon={<StarOutlined />}
+              onClick={changeStar}
+              disabled={changeStarLoading}
+            >
+              {isStarState ? '取消星标' : '星标'}
             </Button>
             <Popconfirm
               title="确认复制吗？"
