@@ -29,9 +29,9 @@ type PropsType = {
 
 const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const { _id, title, isPublished, isStar, answerCount, createdAt } = props
-  // 修改 标星
-  const [isStarState, setIsStarState] = useState(isStar)
   const nav = useNavigate()
+  // 标星
+  const [isStarState, setIsStarState] = useState(isStar)
   const { loading: changeStarLoading, run: changeStar } = useRequest(
     async () => {
       await updateQuestionService(_id, { isStar: !isStarState })
@@ -44,7 +44,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
       },
     }
   )
-  // 复制功能实现
+  // 复制
   const { loading: duplicateLoading, run: duplicate } = useRequest(
     async () => {
       const data = await duplicateQuestionService(_id)
@@ -58,16 +58,28 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
       },
     }
   )
-  // 删除功能实现
+  // 删除
+  const [isDeleted, setIsDeleted] = useState(false)
+  const { loading: deleteLoading, run: deleteQuestion } = useRequest(
+    async () => await updateQuestionService(_id, { isDeleted: true }),
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('删除成功')
+      },
+    }
+  )
   function del() {
     confirm({
       title: '删除问卷',
       icon: <ExclamationCircleOutlined />,
       onOk() {
-        message.success('删除成功')
+        deleteQuestion()
+        setIsDeleted(true)
       },
     })
   }
+  if (isDeleted) return null // 已经删除的问卷，不要再渲染卡片了
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -149,6 +161,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               size="small"
               icon={<DeleteOutlined />}
               onClick={del}
+              disabled={deleteLoading}
             >
               删除
             </Button>
