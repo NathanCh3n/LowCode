@@ -20,6 +20,7 @@ function useLoadQuestionListData(opt: Partial<optionType> = {}) {
     data = {},
     loading,
     error,
+    refresh,
   } = useRequest(
     async () => {
       const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || ''
@@ -40,7 +41,7 @@ function useLoadQuestionListData(opt: Partial<optionType> = {}) {
       refreshDeps: [searchParams],
     }
   )
-  return { data, loading, error }
+  return { data, loading, error, refresh }
 }
 
 export default useLoadQuestionListData

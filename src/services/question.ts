@@ -48,3 +48,11 @@ export async function duplicateQuestionService(
   const data = (await axios.post(url)) as ResDataType
   return data
 }
+
+export async function deleteQuestionService(
+  id: string[]
+): Promise<ResDataType> {
+  const url = `/api/question`
+  const data = (await axios.delete(url, { data: { id } })) as ResDataType
+  return data
+}

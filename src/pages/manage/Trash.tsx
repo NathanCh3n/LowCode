@@ -16,6 +16,11 @@ import styles from './common.module.scss'
 import ListSearch from '../../component/ListSearch'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 import ListPage from '../../component/ListPage'
+import {
+  deleteQuestionService,
+  updateQuestionService,
+} from '../../services/question'
+import { useRequest } from 'ahooks'
 
 const { Title } = Typography
 const { confirm } = Modal
@@ -49,7 +54,11 @@ const { confirm } = Modal
 
 const Star: FC = () => {
   useTitle('回收站')
-  const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true })
+  const {
+    data = {},
+    loading,
+    refresh,
+  } = useLoadQuestionListData({ isDeleted: true })
   const { list = [], total = 0 } = data
   const [selectionIds, setSelectionIds] = useState<string[]>([])
   const tableColumns = [
@@ -82,6 +91,36 @@ const Star: FC = () => {
       key: 'createdAt',
     },
   ]
+  // 恢复
+  const { run: recover } = useRequest(
+    async () => {
+      for await (const id of selectionIds) {
+        await updateQuestionService(id, { isDeleted: false })
+      }
+    },
+    {
+      manual: true,
+      debounceWait: 500,
+      onSuccess: () => {
+        message.success('恢复成功')
+        refresh()
+        setSelectionIds([])
+      },
+    }
+  )
+
+  // 删除
+  const { run: deleteQuestion } = useRequest(
+    async () => await deleteQuestionService(selectionIds),
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('删除成功')
+        refresh()
+        setSelectionIds([])
+      },
+    }
+  )
 
   function del() {
     confirm({
@@ -90,9 +129,7 @@ const Star: FC = () => {
       cancelText: '取消',
       okText: '删除',
       icon: <ExclamationCircleOutlined />,
-      onOk: () => {
-        message.success(`删除 ${JSON.stringify(selectionIds)}`)
-      },
+      onOk: deleteQuestion,
     })
   }
 
@@ -100,7 +137,11 @@ const Star: FC = () => {
     <>
       <div style={{ marginBottom: '16px' }}>
         <Space>
-          <Button type="primary" disabled={selectionIds.length === 0}>
+          <Button
+            type="primary"
+            disabled={selectionIds.length === 0}
+            onClick={recover}
+          >
             恢复
           </Button>
           <Button danger disabled={selectionIds.length === 0} onClick={del}>
