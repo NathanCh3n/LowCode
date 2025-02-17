@@ -1,9 +1,12 @@
 import React, { FC, useEffect } from 'react'
 import styles from './Register.module.scss'
-import { Typography, Space, Form, Input, Button, Checkbox } from 'antd'
-import { Link } from 'react-router-dom'
+import { Typography, Space, Form, Input, Button, Checkbox, message } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
 import { UserAddOutlined } from '@ant-design/icons'
-import { REGISTER_PATHNAME } from '../router'
+import { REGISTER_PATHNAME, MANAGE_INDEX_PATHNAME } from '../router'
+import { loginService } from '../services/user'
+import { useRequest } from 'ahooks'
+import { setToken } from '../utils/user-token'
 
 const { Title } = Typography
 
@@ -29,18 +32,34 @@ function getUserFromLocalStorage() {
 
 const Login: FC = () => {
   const [form] = Form.useForm() // 第三方 hook
-
+  const nav = useNavigate()
   useEffect(() => {
     const { username, password } = getUserFromLocalStorage()
     form.setFieldsValue({ username, password })
   }, [])
 
+  const { run } = useRequest(
+    async (username: string, password: string) => {
+      const data = await loginService(username, password)
+      return data
+    },
+    {
+      manual: true,
+      onSuccess(res) {
+        const { token = '' } = res
+        setToken(token)
+        message.success('登陆成功')
+        nav(MANAGE_INDEX_PATHNAME)
+      },
+    }
+  )
   const onFinish = (values: {
     username: string
     password: string
     remember: boolean
   }) => {
-    const { remember } = values || {}
+    const { username, password, remember } = values || {}
+    run(username, password)
     if (remember) {
       rememberUser(values.username, values.password)
     } else {
