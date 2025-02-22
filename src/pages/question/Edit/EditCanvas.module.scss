@@ -1,0 +1,26 @@
+.canvas {
+  min-height: 100%;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.component-wrapper {
+  margin: 12px;
+  border: 1px solid #fff;
+  padding: 12px;
+  border-radius: 3px;
+  
+  // 新增修复代码（推荐方案）
+  :global(.ant-typography) {
+    margin-block-start: 0 !important;
+    margin-block-end: 0 !important;
+  }
+
+  &:hover {
+    border: 1px solid #d9d9d9;
+  }
+}
+
+.componet {
+  pointer-events: none; // 禁止点击
+}

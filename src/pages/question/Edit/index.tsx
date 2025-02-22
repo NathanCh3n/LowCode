@@ -1,12 +1,8 @@
 import React, { FC } from 'react'
 import styles from './index.module.scss'
-// import { useParams } from 'react-router-dom'
-// import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
+import EditCanvas from './EditCanvas'
 
 const Edit: FC = () => {
-  // const { id = '' } = useParams()
-  // const { loading, data } = useLoadQuestionData()
-
   return (
     <div className={styles.container}>
       <div style={{ backgroundColor: '#fff', height: '40px' }}>Header</div>
@@ -15,7 +11,9 @@ const Edit: FC = () => {
           <div className={styles.left}>Left</div>
           <div className={styles.main}>
             <div className={styles['canvas-wrapper']}>
-              <div style={{ height: '900px' }}>画布滚动测试</div>
+              <div style={{ height: '900px' }}>
+                <EditCanvas />
+              </div>
             </div>
           </div>
           <div className={styles.right}>Right</div>
