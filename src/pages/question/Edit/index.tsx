@@ -1,21 +1,24 @@
 import React, { FC } from 'react'
-import { useParams } from 'react-router-dom'
-import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
+import styles from './index.module.scss'
+// import { useParams } from 'react-router-dom'
+// import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
 
 const Edit: FC = () => {
-  const { id = '' } = useParams()
-  const { loading, data } = useLoadQuestionData()
+  // const { id = '' } = useParams()
+  // const { loading, data } = useLoadQuestionData()
 
   return (
-    <div>
-      <h1>Edit {id}</h1>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <div>
-          <p>{JSON.stringify(data)}</p>
+    <div className={styles.container}>
+      <div style={{ backgroundColor: '#fff' }}>Header</div>
+      <div className={styles['content-wrapper']}>
+        <div className={styles.content}>
+          <div className={styles.left}>Left</div>
+          <div className={styles.main}>
+            <div className={styles['canvas-wrapper']}>画布</div>
+          </div>
+          <div className={styles.right}>Right</div>
         </div>
-      )}
+      </div>
     </div>
   )
 }

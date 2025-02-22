@@ -6,7 +6,7 @@ import useGetUserInfo from './useGetUserInfo'
 import { loginReducer } from '../store/userReducer'
 
 function useLoadUserData() {
-  const [waitingUserData, setWaitingUserData] = useState<boolean>(false)
+  const [waitingUserData, setWaitingUserData] = useState<boolean>(true)
   const dispatch = useDispatch()
 
   // 加载用户信息
@@ -22,13 +22,17 @@ function useLoadUserData() {
     },
   })
 
+  useEffect(() => {
+    run()
+  }, [])
+
   // Redux 中数据
   const { username } = useGetUserInfo()
   useEffect(() => {
     if (username) {
       setWaitingUserData(false)
+      return
     }
-    run()
   }, [username])
 
   return { waitingUserData }

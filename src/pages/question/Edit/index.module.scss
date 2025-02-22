@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.content-wrapper {
+  flex: auto;
+  padding: 12px 0;
+}
+
+
+.content {
+  display: flex;
+  margin: 0 24px;
+  height: 100%;
+  .left {
+    width: 285px;
+    background-color: #fff;
+    padding: 0 12px;
+  }
+  
+  .main {
+    flex: 1;
+    position: relative;
+    .canvas-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 712px;
+      background-color: #fff; 
+    }
+  }
+  
+  .right {
+    width: 300px;
+    background-color: #fff;
+    padding: 0 12px;
+  }
+}

@@ -26,7 +26,7 @@ const MainLayout: FC = () => {
         <Content>
           {waitingUserData ? (
             <div style={{ textAlign: 'center', marginTop: '60px' }}>
-              <Spin />
+              <Spin tip="用户信息加载中..." />
             </div>
           ) : (
             <Outlet />
