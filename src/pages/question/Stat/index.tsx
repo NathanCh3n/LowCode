@@ -4,7 +4,7 @@ import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
 
 const Edit: FC = () => {
   const { id = '' } = useParams()
-  const { loading, data } = useLoadQuestionData()
+  const { loading } = useLoadQuestionData()
 
   return (
     <div>
@@ -13,7 +13,7 @@ const Edit: FC = () => {
         <div>Loading...</div>
       ) : (
         <div>
-          <p>{JSON.stringify(data)}</p>
+          <p>Test</p>
         </div>
       )}
     </div>

@@ -1,25 +1,39 @@
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { getQuestionService } from '../services/question'
 import { useRequest } from 'ahooks'
+import { resetComponentList } from '../store/componentReducer'
 
 function useLoadQuestionData() {
   const { id = '' } = useParams()
-  // const [loading, setLoading] = useState(true)
-  // const [questionData, setQuestionData] = useState({})
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const res = await getQuestionService(id)
-  //     setQuestionData(res)
-  //     setLoading(false)
-  //   }
-  //   fetchData()
-  // }, [])
-  async function load() {
-    const data = await getQuestionService(id)
-    return data
+  const dispatch = useDispatch()
+  const { data, loading, error, run } = useRequest(
+    async (id: string) => {
+      const data = await getQuestionService(id)
+      return data
+    },
+    {
+      manual: true,
+    }
+  )
+
+  useEffect(() => {
+    if (!data) return
+    const { componentList } = data
+    if (!componentList || componentList.length === 0) return
+    const action = resetComponentList({ componentList })
+    dispatch(action)
+  }, [data])
+
+  useEffect(() => {
+    run(id)
+  }, [id])
+
+  return {
+    loading,
+    error,
   }
-  const { data, loading } = useRequest(load)
-  return { data, loading }
 }
 
 export default useLoadQuestionData

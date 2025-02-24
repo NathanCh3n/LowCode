@@ -2,8 +2,20 @@ import React, { FC } from 'react'
 import styles from './EditCanvas.module.scss'
 import QuestionTitle from '../../../component/QuestionComponents/QuestionTitle/Component'
 import QuestionInput from '../../../component/QuestionComponents/QuestionInput/Component'
+import { Spin } from 'antd'
 
-const EditCanvas: FC = () => {
+type PropsType = {
+  loading: boolean
+}
+
+const EditCanvas: FC<PropsType> = ({ loading }) => {
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '20px' }}>
+        <Spin />
+      </div>
+    )
+  }
   return (
     <div className={styles.canvas}>
       <div className={styles['component-wrapper']}>

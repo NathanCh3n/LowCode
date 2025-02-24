@@ -17,15 +17,27 @@
 │   ├── _mock
 │   │   └── index.ts
 │   ├── component
+│   │   ├── ListPage.tsx
 │   │   ├── ListSearch.module.scss
 │   │   ├── ListSearch.tsx
 │   │   ├── Logo.module.scss
 │   │   ├── Logo.tsx
 │   │   ├── QuestionCard.module.scss
 │   │   ├── QuestionCard.tsx
-│   │   └── userInfo.tsx
+│   │   ├── QuestionComponents
+│   │   │   ├── QuestionInput
+│   │   │   ├── QuestionTitle
+│   │   │   └── index.ts
+│   │   └── UserInfo.tsx
 │   ├── constant
 │   │   └── index.ts
+│   ├── hooks
+│   │   ├── useGetUserInfo.ts
+│   │   ├── useLoadQuestionData.ts
+│   │   ├── useLoadQuestionData.ts.bak
+│   │   ├── useLoadQuestionListData.ts
+│   │   ├── useLoadUserData.ts
+│   │   └── useNavPage.ts
 │   ├── index.tsx
 │   ├── layouts
 │   │   ├── MainLayout.module.scss
@@ -42,15 +54,29 @@
 │   │   ├── Register.module.scss
 │   │   ├── Register.tsx
 │   │   ├── manage
+│   │   │   ├── List.tsx
+│   │   │   ├── Star.tsx
+│   │   │   ├── Trash.tsx
+│   │   │   └── common.module.scss
 │   │   └── question
+│   │       ├── Edit
+│   │       └── Stat
 │   ├── react-app-env.d.ts
 │   ├── reportWebVitals.ts
 │   ├── router
 │   │   └── index.tsx
 │   ├── services
 │   │   ├── ajax.ts
-│   │   └── question.ts
-│   └── setupTests.ts
+│   │   ├── question.ts
+│   │   └── user.ts
+│   ├── setupTests.ts
+│   ├── store
+│   │   ├── componentReducer
+│   │   │   └── index.ts
+│   │   ├── index.ts
+│   │   └── userReducer.ts
+│   └── utils
+│       └── user-token.ts
 └── tsconfig.json
 
-12 directories, 42 files
+21 directories, 59 files
