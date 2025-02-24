@@ -26,12 +26,19 @@
 │   │   ├── QuestionCard.tsx
 │   │   ├── QuestionComponents
 │   │   │   ├── QuestionInput
+│   │   │   │   ├── Component.tsx
+│   │   │   │   ├── index.ts
+│   │   │   │   └── interface.ts
 │   │   │   ├── QuestionTitle
+│   │   │   │   ├── Component.tsx
+│   │   │   │   ├── index.ts
+│   │   │   │   └── interface.ts
 │   │   │   └── index.ts
 │   │   └── UserInfo.tsx
 │   ├── constant
 │   │   └── index.ts
 │   ├── hooks
+│   │   ├── useGetComponentInfo.ts
 │   │   ├── useGetUserInfo.ts
 │   │   ├── useLoadQuestionData.ts
 │   │   ├── useLoadQuestionData.ts.bak
@@ -60,7 +67,12 @@
 │   │   │   └── common.module.scss
 │   │   └── question
 │   │       ├── Edit
+│   │       │   ├── EditCanvas.module.scss
+│   │       │   ├── EditCanvas.tsx
+│   │       │   ├── index.module.scss
+│   │       │   └── index.tsx
 │   │       └── Stat
+│   │           └── index.tsx
 │   ├── react-app-env.d.ts
 │   ├── reportWebVitals.ts
 │   ├── router
@@ -79,4 +91,4 @@
 │       └── user-token.ts
 └── tsconfig.json
 
-21 directories, 59 files
+21 directories, 71 files
