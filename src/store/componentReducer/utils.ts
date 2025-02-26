@@ -10,11 +10,12 @@ export function getNextSelectedId(
   fe_id: string,
   componentList: ComponentInfoType[]
 ) {
-  const index = componentList.findIndex(c => c.fe_id === fe_id)
+  const visibleComponentList = componentList.filter(c => !c.isHidden)
+  const index = visibleComponentList.findIndex(c => c.fe_id === fe_id)
   if (index < 0) return ''
-  if (index === componentList.length - 1) {
-    return componentList[index - 1].fe_id
+  if (index === visibleComponentList.length - 1) {
+    return visibleComponentList[index - 1].fe_id
   } else {
-    return componentList[index + 1].fe_id
+    return visibleComponentList[index + 1].fe_id
   }
 }

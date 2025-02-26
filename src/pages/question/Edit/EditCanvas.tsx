@@ -42,26 +42,28 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
   }
   return (
     <div className={styles.canvas}>
-      {componentList.map(c => {
-        const { fe_id } = c
-        // 拼接 class name
-        const wrapperDefaultClassName = styles['component-wrapper']
-        const selectedClassName = styles.selected
-        const wrapperClassName = classNames({
-          [wrapperDefaultClassName]: true,
-          [selectedClassName]: fe_id === selectedId,
-        })
+      {componentList
+        .filter(c => !c.isHidden)
+        .map(c => {
+          const { fe_id } = c
+          // 拼接 class name
+          const wrapperDefaultClassName = styles['component-wrapper']
+          const selectedClassName = styles.selected
+          const wrapperClassName = classNames({
+            [wrapperDefaultClassName]: true,
+            [selectedClassName]: fe_id === selectedId,
+          })
 
-        return (
-          <div
-            key={fe_id}
-            className={wrapperClassName}
-            onClick={e => handleClick(e, fe_id || '')}
-          >
-            <div className={styles.component}>{getComponent(c)}</div>
-          </div>
-        )
-      })}
+          return (
+            <div
+              key={fe_id}
+              className={wrapperClassName}
+              onClick={e => handleClick(e, fe_id || '')}
+            >
+              <div className={styles.component}>{getComponent(c)}</div>
+            </div>
+          )
+        })}
     </div>
   )
 
