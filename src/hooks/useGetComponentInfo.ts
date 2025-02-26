@@ -6,7 +6,6 @@ function useGetComponentInfo() {
   const components = useSelector<StateType>(
     (state: StateType) => state.components
   ) as ComponentsStateType
-  console.log('components', components)
   const { componentList = [], selectedId } = components
   return { componentList, selectedId }
 }

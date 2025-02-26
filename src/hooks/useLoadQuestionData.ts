@@ -24,8 +24,6 @@ function useLoadQuestionData() {
     // 获取默认的 id
     let selectedId = ''
     if (componentList.length > 0) {
-      console.log('componentList', componentList)
-
       const { fe_id } = componentList[0]
       selectedId = fe_id
     }
