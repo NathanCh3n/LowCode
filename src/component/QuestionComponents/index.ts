@@ -1,5 +1,6 @@
 import QuestionInputConf, { QuestionInputPropsType } from './QuestionInput'
 import QuestionTitleConf, { QuestionTitlePropsType } from './QuestionTitle'
+import { FC } from 'react'
 
 // 各个组件的 prop type
 export type ComponentPropsType = QuestionInputPropsType & QuestionTitlePropsType
@@ -8,7 +9,7 @@ export type ComponentPropsType = QuestionInputPropsType & QuestionTitlePropsType
 export type ComponentConfType = {
   title: string
   type: string
-  Component: React.FC<ComponentPropsType>
+  Component: FC<ComponentPropsType>
   defaultProps: ComponentPropsType
 }
 

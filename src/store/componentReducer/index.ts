@@ -35,8 +35,23 @@ export const componentsSlice = createSlice({
     ) => {
       draft.selectedId = action.payload || ''
     },
+    addComponent: (
+      draft: ComponentsStateType,
+      action: PayloadAction<ComponentInfoType>
+    ) => {
+      const newCompontent = action.payload
+      const { selectedId, componentList } = draft
+      const index = componentList.findIndex(c => c.fe_id === selectedId)
+      if (index < 0) {
+        draft.componentList.push(newCompontent)
+      } else {
+        draft.componentList.splice(index + 1, 0, newCompontent)
+      }
+      draft.selectedId = newCompontent.fe_id
+    },
   },
 })
 
-export const { resetComponentList, changeSelectedId } = componentsSlice.actions
+export const { resetComponentList, changeSelectedId, addComponent } =
+  componentsSlice.actions
 export default componentsSlice.reducer

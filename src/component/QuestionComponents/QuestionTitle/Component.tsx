@@ -15,8 +15,6 @@ const QuestionTitle: FC<QuestionTitlePropsType> = (
     if (level === 1) return '24px'
     if (level === 2) return '20px'
     if (level === 3) return '16px'
-    if (level === 4) return '14px'
-    if (level === 5) return '12px'
     return '24px'
   }
   return (
@@ -24,6 +22,7 @@ const QuestionTitle: FC<QuestionTitlePropsType> = (
       level={level}
       style={{
         textAlign: isCenter ? 'center' : 'left',
+        marginTop: '0px',
         marginBottom: '0px',
         fontSize: genFontSize(level),
       }}
