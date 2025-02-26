@@ -21,8 +21,17 @@ function useLoadQuestionData() {
   useEffect(() => {
     if (!data) return
     const { componentList } = data
+    // 获取默认的 id
+    let selectedId = ''
+    if (componentList.length > 0) {
+      console.log('componentList', componentList)
+
+      const { fe_id } = componentList[0]
+      selectedId = fe_id
+    }
+
     if (!componentList || componentList.length === 0) return
-    const action = resetComponentList({ componentList })
+    const action = resetComponentList({ componentList, selectedId })
     dispatch(action)
   }, [data])
 

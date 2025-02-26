@@ -21,6 +21,10 @@
   }
 }
 
+.selected {
+  border-color: #1890ff !important;
+}
+
 .componet {
   pointer-events: none; // 禁止点击
 }
