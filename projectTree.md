@@ -27,10 +27,12 @@
 │   │   ├── QuestionComponents
 │   │   │   ├── QuestionInput
 │   │   │   │   ├── Component.tsx
+│   │   │   │   ├── PropComponent.tsx
 │   │   │   │   ├── index.ts
 │   │   │   │   └── interface.ts
 │   │   │   ├── QuestionTitle
 │   │   │   │   ├── Component.tsx
+│   │   │   │   ├── PropComponent.tsx
 │   │   │   │   ├── index.ts
 │   │   │   │   └── interface.ts
 │   │   │   └── index.ts
@@ -67,8 +69,13 @@
 │   │   │   └── common.module.scss
 │   │   └── question
 │   │       ├── Edit
+│   │       │   ├── ComponentLib.module.scss
+│   │       │   ├── ComponentLib.tsx
 │   │       │   ├── EditCanvas.module.scss
 │   │       │   ├── EditCanvas.tsx
+│   │       │   ├── LeftPanel.tsx
+│   │       │   ├── RightPanel.tsx
+│   │       │   ├── componentProp.tsx
 │   │       │   ├── index.module.scss
 │   │       │   └── index.tsx
 │   │       └── Stat
@@ -91,4 +98,4 @@
 │       └── user-token.ts
 └── tsconfig.json
 
-21 directories, 71 files
+21 directories, 78 files

@@ -5,6 +5,7 @@ import { changeSelectedId } from '../../../store/componentReducer'
 import { useDispatch } from 'react-redux'
 import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
 import LeftPanel from './LeftPanel'
+import RightPanel from './RightPanel'
 
 const Edit: FC = () => {
   const { loading } = useLoadQuestionData()
@@ -27,7 +28,9 @@ const Edit: FC = () => {
               </div>
             </div>
           </div>
-          <div className={styles.right}>Right</div>
+          <div className={styles.right}>
+            <RightPanel />
+          </div>
         </div>
       </div>
     </div>
