@@ -15,7 +15,7 @@ const ComponentProp: FC = () => {
   const dispatch = useDispatch()
   const { selectedComponent } = useGetComponentInfo()
   if (!selectedComponent) return <NoProp />
-  const { type, props } = selectedComponent
+  const { type, props, isLocked, isHidden } = selectedComponent
   const componentConf = getComponentConfByType(type)
   if (!componentConf) return <NoProp />
   const { PropComponent } = componentConf
@@ -24,6 +24,12 @@ const ComponentProp: FC = () => {
     dispatch(changeComponentProps({ fe_id: selectedComponent.fe_id, newProps }))
   }
 
-  return <PropComponent {...props} onChange={changeProps} />
+  return (
+    <PropComponent
+      {...props}
+      disabled={isLocked || isHidden}
+      onChange={changeProps}
+    />
+  )
 }
 export default ComponentProp

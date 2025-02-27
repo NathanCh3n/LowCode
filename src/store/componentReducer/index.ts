@@ -1,24 +1,27 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
 import { ComponentPropsType } from '../../component/QuestionComponents'
-import { getNextSelectedId } from './utils'
+import clonedeep from 'lodash.clonedeep'
+import { getNextSelectedId, insertNewComponent } from './utils'
 
 export type ComponentInfoType = {
   fe_id: string
   type: string
   title: string
   isHidden?: boolean
+  isLocked?: boolean
   props: ComponentPropsType
 }
 
 export type ComponentsStateType = {
   selectedId: string
   componentList: Array<ComponentInfoType>
+  copiedComponent: ComponentInfoType | null
 }
 
 const INIT_STATE: ComponentsStateType = {
   selectedId: '',
   componentList: [],
-  // 其他拓展
+  copiedComponent: null,
 }
 
 export const componentsSlice = createSlice({
@@ -42,14 +45,7 @@ export const componentsSlice = createSlice({
       action: PayloadAction<ComponentInfoType>
     ) => {
       const newCompontent = action.payload
-      const { selectedId, componentList } = draft
-      const index = componentList.findIndex(c => c.fe_id === selectedId)
-      if (index < 0) {
-        draft.componentList.push(newCompontent)
-      } else {
-        draft.componentList.splice(index + 1, 0, newCompontent)
-      }
-      draft.selectedId = newCompontent.fe_id
+      insertNewComponent(draft, newCompontent)
     },
     changeComponentProps: (
       draft: ComponentsStateType,
@@ -92,6 +88,29 @@ export const componentsSlice = createSlice({
         component.isHidden = isHidden
       }
     },
+    toggleComponentLock: (
+      draft: ComponentsStateType,
+      action: PayloadAction<{ fe_id: string }>
+    ) => {
+      const { fe_id } = action.payload
+      const component = draft.componentList.find(c => c.fe_id === fe_id)
+      if (component) {
+        component.isLocked = !component.isLocked
+      }
+    },
+    copySelectedComponent: (draft: ComponentsStateType) => {
+      const { selectedId, componentList } = draft
+      const selectedComponent = componentList.find(c => c.fe_id === selectedId)
+      if (selectedComponent) {
+        draft.copiedComponent = clonedeep(selectedComponent)
+      }
+    },
+    pasteCopiedComponent: (draft: ComponentsStateType) => {
+      const { copiedComponent } = draft
+      if (!copiedComponent) return
+      copiedComponent.fe_id = nanoid()
+      insertNewComponent(draft, copiedComponent)
+    },
   },
 })
 
@@ -102,5 +121,8 @@ export const {
   changeComponentProps,
   removeSelectedComponent,
   changeComponentHidden,
+  toggleComponentLock,
+  copySelectedComponent,
+  pasteCopiedComponent,
 } = componentsSlice.actions
 export default componentsSlice.reducer

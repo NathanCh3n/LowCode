@@ -29,7 +29,11 @@ function useLoadQuestionData() {
     }
 
     if (!componentList || componentList.length === 0) return
-    const action = resetComponentList({ componentList, selectedId })
+    const action = resetComponentList({
+      componentList,
+      selectedId,
+      copiedComponent: null,
+    })
     dispatch(action)
   }, [data])
 
