@@ -30,6 +30,11 @@
 │   │   │   │   ├── PropComponent.tsx
 │   │   │   │   ├── index.ts
 │   │   │   │   └── interface.ts
+│   │   │   ├── QuestionParagraph
+│   │   │   │   ├── Component.tsx
+│   │   │   │   ├── PropComponent.tsx
+│   │   │   │   ├── index.ts
+│   │   │   │   └── interface.ts
 │   │   │   ├── QuestionTitle
 │   │   │   │   ├── Component.tsx
 │   │   │   │   ├── PropComponent.tsx
@@ -40,6 +45,7 @@
 │   ├── constant
 │   │   └── index.ts
 │   ├── hooks
+│   │   ├── useBindCanvasKeyPress.ts
 │   │   ├── useGetComponentInfo.ts
 │   │   ├── useGetUserInfo.ts
 │   │   ├── useLoadQuestionData.ts
@@ -73,6 +79,9 @@
 │   │       │   ├── ComponentLib.tsx
 │   │       │   ├── EditCanvas.module.scss
 │   │       │   ├── EditCanvas.tsx
+│   │       │   ├── EditHeader.module.scss
+│   │       │   ├── EditHeader.tsx
+│   │       │   ├── EditToolbar.tsx
 │   │       │   ├── LeftPanel.tsx
 │   │       │   ├── RightPanel.tsx
 │   │       │   ├── componentProp.tsx
@@ -91,11 +100,12 @@
 │   ├── setupTests.ts
 │   ├── store
 │   │   ├── componentReducer
-│   │   │   └── index.ts
+│   │   │   ├── index.ts
+│   │   │   └── utils.ts
 │   │   ├── index.ts
 │   │   └── userReducer.ts
 │   └── utils
 │       └── user-token.ts
 └── tsconfig.json
 
-21 directories, 78 files
+22 directories, 87 files
