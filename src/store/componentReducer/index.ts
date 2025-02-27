@@ -71,10 +71,10 @@ export const componentsSlice = createSlice({
     },
     changeComponentHidden: (
       draft: ComponentsStateType,
-      action: PayloadAction<{ fe_id: string; isHidden: boolean }>
+      action: PayloadAction<{ isHidden: boolean }>
     ) => {
-      const { componentList } = draft
-      const { fe_id, isHidden } = action.payload
+      const { componentList, selectedId: fe_id } = draft
+      const { isHidden } = action.payload
       const component = draft.componentList.find(c => c.fe_id === fe_id)
       // 重新计算 selectedId, 优先选择下一个，没有下一个则选择上一个
       let newSelectedId = ''
@@ -88,11 +88,8 @@ export const componentsSlice = createSlice({
         component.isHidden = isHidden
       }
     },
-    toggleComponentLock: (
-      draft: ComponentsStateType,
-      action: PayloadAction<{ fe_id: string }>
-    ) => {
-      const { fe_id } = action.payload
+    toggleComponentLock: (draft: ComponentsStateType) => {
+      const { selectedId: fe_id } = draft
       const component = draft.componentList.find(c => c.fe_id === fe_id)
       if (component) {
         component.isLocked = !component.isLocked

@@ -19,17 +19,16 @@ import React, { FC } from 'react'
 
 const EditToolbar: FC = () => {
   const dispatch = useDispatch()
-  const { selectedId, selectedComponent, copiedComponent } =
-    useGetComponentInfo()
+  const { selectedComponent, copiedComponent } = useGetComponentInfo()
   const { isLocked } = selectedComponent || {}
   const handleDelete = () => {
     dispatch(removeSelectedComponent())
   }
   const handleHide = () => {
-    dispatch(changeComponentHidden({ fe_id: selectedId, isHidden: true }))
+    dispatch(changeComponentHidden({ isHidden: true }))
   }
   const handleLock = () => {
-    dispatch(toggleComponentLock({ fe_id: selectedId }))
+    dispatch(toggleComponentLock())
   }
   const handleCopy = () => {
     dispatch(copySelectedComponent())

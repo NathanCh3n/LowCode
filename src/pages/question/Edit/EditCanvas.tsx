@@ -1,7 +1,5 @@
 import React, { FC, MouseEvent } from 'react'
 import styles from './EditCanvas.module.scss'
-// import QuestionTitle from '../../../component/QuestionComponents/QuestionTitle/Component'
-// import QuestionInput from '../../../component/QuestionComponents/QuestionInput/Component'
 import { Spin } from 'antd'
 import { useDispatch } from 'react-redux'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
@@ -11,6 +9,7 @@ import {
   ComponentInfoType,
   changeSelectedId,
 } from '../../../store/componentReducer'
+import useBindCanvasKeyPress from '../../../hooks/useBindCanvasKeyPress'
 
 type PropsType = {
   loading: boolean
@@ -28,6 +27,7 @@ function getComponent(componentInfo: ComponentInfoType) {
 
 const EditCanvas: FC<PropsType> = ({ loading }) => {
   const { componentList, selectedId } = useGetComponentInfo()
+  useBindCanvasKeyPress()
   const dispatch = useDispatch()
   function handleClick(event: MouseEvent, id: string) {
     event.stopPropagation()
