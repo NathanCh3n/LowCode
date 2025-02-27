@@ -108,6 +108,26 @@ export const componentsSlice = createSlice({
       copiedComponent.fe_id = nanoid()
       insertNewComponent(draft, copiedComponent)
     },
+    selectPrevComponent: (draft: ComponentsStateType) => {
+      const { selectedId, componentList } = draft
+      const index = componentList.findIndex(c => c.fe_id === selectedId)
+      // 如果是第一个组件，不做任何操作
+      if (index <= 0) return
+      const prevComponent = componentList[index - 1]
+      if (prevComponent) {
+        draft.selectedId = prevComponent.fe_id
+      }
+    },
+    selectNextComponent: (draft: ComponentsStateType) => {
+      const { selectedId, componentList } = draft
+      const index = componentList.findIndex(c => c.fe_id === selectedId)
+      if (index <= 0) return
+      if (index === componentList.length - 1) return
+      const nextComponent = componentList[index + 1]
+      if (nextComponent) {
+        draft.selectedId = nextComponent.fe_id
+      }
+    },
   },
 })
 
@@ -121,5 +141,7 @@ export const {
   toggleComponentLock,
   copySelectedComponent,
   pasteCopiedComponent,
+  selectPrevComponent,
+  selectNextComponent,
 } = componentsSlice.actions
 export default componentsSlice.reducer

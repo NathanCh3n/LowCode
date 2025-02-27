@@ -3,6 +3,8 @@ import {
   removeSelectedComponent,
   copySelectedComponent,
   pasteCopiedComponent,
+  selectPrevComponent,
+  selectNextComponent,
 } from '../store/componentReducer'
 import { useKeyPress } from 'ahooks'
 
@@ -15,7 +17,6 @@ import { useKeyPress } from 'ahooks'
  */
 function isActiveElementValid() {
   const activeElement = document.activeElement
-  console.log(activeElement)
   // 光标没有 focus 到 ipnut 上
   if (activeElement === document.body) {
     return true
@@ -39,6 +40,16 @@ const useBindCanvasKeyPress = () => {
   useKeyPress(['ctrl.v', 'meta.v'], () => {
     if (!isActiveElementValid()) return
     dispatch(pasteCopiedComponent())
+  })
+  // 选中上一个组件
+  useKeyPress(['uparrow'], () => {
+    if (!isActiveElementValid()) return
+    dispatch(selectPrevComponent())
+  })
+  // 选中下一个组件
+  useKeyPress(['downarrow'], () => {
+    if (!isActiveElementValid()) return
+    dispatch(selectNextComponent())
   })
 }
 
