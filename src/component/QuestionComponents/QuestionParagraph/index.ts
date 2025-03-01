@@ -8,7 +8,7 @@ export * from './interface'
 // paragraph 组件配置
 export default {
   title: '段落',
-  type: 'questionPragraph',
+  type: 'questionParagraph',
   Component: Component,
   PropComponent: PropComponent,
   defaultProps: QuestionParagraphDefaultProps,
