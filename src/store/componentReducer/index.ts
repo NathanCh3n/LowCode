@@ -145,17 +145,6 @@ export const componentsSlice = createSlice({
         component.title = title
       }
     },
-    toggleComponentHidden: (
-      draft: ComponentsStateType,
-      action: PayloadAction<string>
-    ) => {
-      const { componentList } = draft
-      const fe_id = action.payload
-      const component = componentList.find(c => c.fe_id === fe_id)
-      if (component) {
-        component.isHidden = !component.isHidden
-      }
-    },
   },
 })
 
@@ -173,6 +162,5 @@ export const {
   selectPrevComponent,
   selectNextComponent,
   changeCompnentTitle,
-  toggleComponentHidden,
 } = componentsSlice.actions
 export default componentsSlice.reducer
