@@ -105,6 +105,9 @@ export const componentsSlice = createSlice({
         draft.copiedComponent = clonedeep(selectedComponent)
       }
     },
+    clearCopiedComponent: (draft: ComponentsStateType) => {
+      draft.copiedComponent = null
+    },
     pasteCopiedComponent: (draft: ComponentsStateType) => {
       const { copiedComponent } = draft
       if (!copiedComponent) return
@@ -165,6 +168,7 @@ export const {
   toggleComponentLocked,
   changeComponentHidden,
   copySelectedComponent,
+  clearCopiedComponent,
   pasteCopiedComponent,
   selectPrevComponent,
   selectNextComponent,

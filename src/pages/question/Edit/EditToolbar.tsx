@@ -11,6 +11,7 @@ import {
   changeComponentHidden,
   toggleComponentLocked,
   copySelectedComponent,
+  clearCopiedComponent,
   pasteCopiedComponent,
 } from '../../../store/componentReducer'
 import { useDispatch } from 'react-redux'
@@ -35,7 +36,11 @@ const EditToolbar: FC = () => {
     }
   }
   const handleCopy = () => {
-    dispatch(copySelectedComponent())
+    if (copiedComponent) {
+      dispatch(clearCopiedComponent())
+    } else {
+      dispatch(copySelectedComponent())
+    }
   }
   const handlePaste = () => {
     dispatch(pasteCopiedComponent())
