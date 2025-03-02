@@ -9,7 +9,7 @@ import {
 import {
   removeSelectedComponent,
   changeComponentHidden,
-  toggleComponentLock,
+  toggleComponentLocked,
   copySelectedComponent,
   pasteCopiedComponent,
 } from '../../../store/componentReducer'
@@ -20,15 +20,19 @@ import React, { FC } from 'react'
 const EditToolbar: FC = () => {
   const dispatch = useDispatch()
   const { selectedComponent, copiedComponent } = useGetComponentInfo()
-  const { isLocked } = selectedComponent || {}
+  const { isLocked, fe_id } = selectedComponent || {}
   const handleDelete = () => {
     dispatch(removeSelectedComponent())
   }
   const handleHide = () => {
-    dispatch(changeComponentHidden({ isHidden: true }))
+    if (fe_id) {
+      dispatch(changeComponentHidden({ fe_id, isHidden: true }))
+    }
   }
   const handleLock = () => {
-    dispatch(toggleComponentLock())
+    if (fe_id) {
+      dispatch(toggleComponentLocked({ fe_id }))
+    }
   }
   const handleCopy = () => {
     dispatch(copySelectedComponent())

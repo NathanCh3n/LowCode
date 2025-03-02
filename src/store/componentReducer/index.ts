@@ -71,10 +71,10 @@ export const componentsSlice = createSlice({
     },
     changeComponentHidden: (
       draft: ComponentsStateType,
-      action: PayloadAction<{ isHidden: boolean }>
+      action: PayloadAction<{ fe_id: string; isHidden: boolean }>
     ) => {
-      const { componentList, selectedId: fe_id } = draft
-      const { isHidden } = action.payload
+      const { componentList } = draft
+      const { isHidden, fe_id } = action.payload
       const component = draft.componentList.find(c => c.fe_id === fe_id)
       // 重新计算 selectedId, 优先选择下一个，没有下一个则选择上一个
       let newSelectedId = ''
@@ -88,8 +88,11 @@ export const componentsSlice = createSlice({
         component.isHidden = isHidden
       }
     },
-    toggleComponentLock: (draft: ComponentsStateType) => {
-      const { selectedId: fe_id } = draft
+    toggleComponentLocked: (
+      draft: ComponentsStateType,
+      action: PayloadAction<{ fe_id: string }>
+    ) => {
+      const { fe_id } = action.payload
       const component = draft.componentList.find(c => c.fe_id === fe_id)
       if (component) {
         component.isLocked = !component.isLocked
@@ -128,6 +131,28 @@ export const componentsSlice = createSlice({
         draft.selectedId = nextComponent.fe_id
       }
     },
+    // 修改标题组件
+    changeCompnentTitle: (
+      draft: ComponentsStateType,
+      action: PayloadAction<{ fe_id: string; title: string }>
+    ) => {
+      const { fe_id, title } = action.payload
+      const component = draft.componentList.find(c => c.fe_id === fe_id)
+      if (component) {
+        component.title = title
+      }
+    },
+    toggleComponentHidden: (
+      draft: ComponentsStateType,
+      action: PayloadAction<string>
+    ) => {
+      const { componentList } = draft
+      const fe_id = action.payload
+      const component = componentList.find(c => c.fe_id === fe_id)
+      if (component) {
+        component.isHidden = !component.isHidden
+      }
+    },
   },
 })
 
@@ -137,11 +162,13 @@ export const {
   addComponent,
   changeComponentProps,
   removeSelectedComponent,
+  toggleComponentLocked,
   changeComponentHidden,
-  toggleComponentLock,
   copySelectedComponent,
   pasteCopiedComponent,
   selectPrevComponent,
   selectNextComponent,
+  changeCompnentTitle,
+  toggleComponentHidden,
 } = componentsSlice.actions
 export default componentsSlice.reducer
