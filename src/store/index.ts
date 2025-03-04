@@ -1,17 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer, { UserStateType } from './userReducer'
 import componentReducer, { ComponentsStateType } from './componentReducer'
+import pageInfoReducer, { PageInfoType } from './pageInfoReducer'
 
 export type StateType = {
   user: UserStateType
   components: ComponentsStateType
+  pageInfo: PageInfoType
 }
 
 export default configureStore({
   reducer: {
     user: userReducer,
     components: componentReducer,
-    // 组件列表
-    // 问卷信息
+    pageInfo: pageInfoReducer,
   },
 })
