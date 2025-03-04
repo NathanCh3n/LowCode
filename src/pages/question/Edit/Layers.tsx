@@ -12,6 +12,9 @@ import {
 } from '../../../store/componentReducer'
 import { message } from 'antd'
 import classNames from 'classnames'
+import SortableContainer from '../../../component/DragSortable/SortableContainer'
+import SortableItem from '../../../component/DragSortable/SortableItem'
+import { moveComponent } from '../../../store/componentReducer'
 
 const Layers: FC = () => {
   const { componentList, selectedId } = useGetComponentInfo()
@@ -45,59 +48,70 @@ const Layers: FC = () => {
   function changeLocked(fe_id: string) {
     dispatch(toggleComponentLocked({ fe_id }))
   }
+
+  // 拖拽排序
+  const componentListWithId = componentList.map(c => {
+    return { ...c, id: c.fe_id }
+  })
+  function handleDragEnd(oldIndex: number, newIndex: number) {
+    dispatch(moveComponent({ oldIndex, newIndex }))
+  }
+
   return (
-    <>
+    <SortableContainer items={componentListWithId} onDragEnd={handleDragEnd}>
       {componentList.map(c => {
         const { fe_id, title, isHidden, isLocked } = c
         const wrapperClassName = classNames(styles.wrapper, {
           [styles.selected]: selectedId === fe_id, // 将选中样式应用到容器
         })
         return (
-          <div
-            className={wrapperClassName}
-            key={fe_id}
-            onClick={() => handleTitleClick(fe_id)}
-          >
-            <div className={styles.title}>
-              {changingTitleId === fe_id ? (
-                <Input
-                  type="text"
-                  value={title}
-                  onChange={changeTitle}
-                  onClick={e => e.stopPropagation()} // 阻止输入框点击冒泡
-                  onBlur={() => setchangingTitleId('')}
-                  onPressEnter={() => setchangingTitleId('')}
-                />
-              ) : (
-                title
-              )}
+          <SortableItem key={fe_id} id={fe_id}>
+            <div
+              className={wrapperClassName}
+              key={fe_id}
+              onClick={() => handleTitleClick(fe_id)}
+            >
+              <div className={styles.title}>
+                {changingTitleId === fe_id ? (
+                  <Input
+                    type="text"
+                    value={title}
+                    onChange={changeTitle}
+                    onClick={e => e.stopPropagation()} // 阻止输入框点击冒泡
+                    onBlur={() => setchangingTitleId('')}
+                    onPressEnter={() => setchangingTitleId('')}
+                  />
+                ) : (
+                  title
+                )}
+              </div>
+              <div>
+                <Space>
+                  <Button
+                    icon={<EyeInvisibleOutlined />}
+                    shape="circle"
+                    type={isHidden ? 'primary' : 'default'}
+                    onClick={e => {
+                      e.stopPropagation()
+                      changeHidden(fe_id, !isHidden)
+                    }}
+                  />
+                  <Button
+                    icon={<LockOutlined />}
+                    shape="circle"
+                    type={isLocked ? 'primary' : 'default'}
+                    onClick={e => {
+                      e.stopPropagation()
+                      changeLocked(fe_id)
+                    }}
+                  />
+                </Space>
+              </div>
             </div>
-            <div>
-              <Space>
-                <Button
-                  icon={<EyeInvisibleOutlined />}
-                  shape="circle"
-                  type={isHidden ? 'primary' : 'default'}
-                  onClick={e => {
-                    e.stopPropagation()
-                    changeHidden(fe_id, !isHidden)
-                  }}
-                />
-                <Button
-                  icon={<LockOutlined />}
-                  shape="circle"
-                  type={isLocked ? 'primary' : 'default'}
-                  onClick={e => {
-                    e.stopPropagation()
-                    changeLocked(fe_id)
-                  }}
-                />
-              </Space>
-            </div>
-          </div>
+          </SortableItem>
         )
       })}
-    </>
+    </SortableContainer>
   )
 }
 
