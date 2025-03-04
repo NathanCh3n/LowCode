@@ -158,6 +158,30 @@ export const componentsSlice = createSlice({
       // const [removed] = componentList.splice(oldIndex, 1)
       // componentList.splice(newIndex, 0, removed)
     },
+    // 上移组件
+    moveUpComponent: (
+      draft: ComponentsStateType,
+      action: PayloadAction<{ fe_id: string }>
+    ) => {
+      const { fe_id } = action.payload
+      const { componentList } = draft
+      const index = componentList.findIndex(c => c.fe_id === fe_id)
+      if (index <= 0) return
+      const [removed] = componentList.splice(index, 1)
+      componentList.splice(index - 1, 0, removed)
+    },
+    // 下移元素
+    moveDownComponent: (
+      draft: ComponentsStateType,
+      action: PayloadAction<{ fe_id: string }>
+    ) => {
+      const { fe_id } = action.payload
+      const { componentList } = draft
+      const index = componentList.findIndex(c => c.fe_id === fe_id)
+      if (index === componentList.length - 1) return
+      const [removed] = componentList.splice(index, 1)
+      componentList.splice(index + 1, 0, removed)
+    },
   },
 })
 
@@ -176,5 +200,7 @@ export const {
   selectNextComponent,
   changeCompnentTitle,
   moveComponent,
+  moveUpComponent,
+  moveDownComponent,
 } = componentsSlice.actions
 export default componentsSlice.reducer
