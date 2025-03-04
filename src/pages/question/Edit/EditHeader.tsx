@@ -8,9 +8,10 @@ import EditToolbar from './EditToolbar'
 import { useDispatch } from 'react-redux'
 import { changePageTitle } from '../../../store/pageInfoReducer'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
-import { useRequest, useKeyPress } from 'ahooks'
+import { useRequest, useKeyPress, useDebounceEffect } from 'ahooks'
 import { updateQuestionService } from '../../../services/question'
 
+// 标题组件
 const TitleElem: FC = () => {
   const { Title } = Typography
   const { title } = useGetPageInfo()
@@ -69,6 +70,15 @@ const SaveButton: FC = () => {
     event.preventDefault()
     if (!loading) save()
   })
+  // 自动保存
+  useDebounceEffect(
+    () => {
+      if (!id) return
+      save()
+    },
+    [componentList, pageInfo],
+    { wait: 1000 }
+  )
   return (
     <Button
       type="primary"
@@ -77,6 +87,41 @@ const SaveButton: FC = () => {
       icon={loading ? <LoadingOutlined /> : null}
     >
       保存
+    </Button>
+  )
+}
+
+// 发布按钮
+const PublishButton: FC = () => {
+  const { id } = useParams()
+  const { componentList = [] } = useGetComponentInfo()
+  const pageInfo = useGetPageInfo()
+  const nav = useNavigate()
+
+  const { loading, run: pub } = useRequest(
+    async () => {
+      if (!id) return
+      await updateQuestionService(id, {
+        ...pageInfo,
+        componentList,
+      })
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('发布成功')
+        nav('/question/stat/' + id)
+      },
+    }
+  )
+  return (
+    <Button
+      type="primary"
+      onClick={pub}
+      disabled={loading}
+      icon={loading ? <LoadingOutlined /> : null}
+    >
+      发布
     </Button>
   )
 }
@@ -101,7 +146,7 @@ const EditHeader: FC = () => {
         <div className={styles.right}>
           <Space>
             <SaveButton />
-            <Button type="primary">发布</Button>
+            <PublishButton />
           </Space>
         </div>
       </div>
