@@ -87,11 +87,11 @@ const EditToolbar: FC = () => {
           onClick={handlePaste}
         />
       </Tooltip>
-      <Tooltip title="上移">
-        <Button type="primary" shape="circle" icon={<DeleteOutlined />} />
+      <Tooltip title="撤销">
+        <Button shape="circle" icon={<DeleteOutlined />} />
       </Tooltip>
-      <Tooltip title="下移">
-        <Button type="primary" shape="circle" icon={<DeleteOutlined />} />
+      <Tooltip title="重做">
+        <Button shape="circle" icon={<DeleteOutlined />} />
       </Tooltip>
     </Space>
   )

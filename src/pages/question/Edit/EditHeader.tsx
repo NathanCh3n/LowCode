@@ -1,12 +1,15 @@
 import React, { FC, useState } from 'react'
 import { Button, Input, Typography, Space, message } from 'antd'
-import { EditOutlined, LeftOutlined } from '@ant-design/icons'
+import { EditOutlined, LeftOutlined, LoadingOutlined } from '@ant-design/icons'
 import styles from './EditHeader.module.scss'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import useGetPageInfo from '../../../hooks/useGetPageInfo'
 import EditToolbar from './EditToolbar'
 import { useDispatch } from 'react-redux'
 import { changePageTitle } from '../../../store/pageInfoReducer'
+import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
+import { useRequest, useKeyPress } from 'ahooks'
+import { updateQuestionService } from '../../../services/question'
 
 const TitleElem: FC = () => {
   const { Title } = Typography
@@ -44,6 +47,40 @@ const TitleElem: FC = () => {
   )
 }
 
+// 保存按钮
+const SaveButton: FC = () => {
+  const { id } = useParams()
+  const { componentList = [] } = useGetComponentInfo()
+  const pageInfo = useGetPageInfo()
+
+  const { loading, run: save } = useRequest(
+    async () => {
+      if (!id) return
+      await updateQuestionService(id, {
+        ...pageInfo,
+        componentList,
+      })
+    },
+    {
+      manual: true,
+    }
+  )
+  useKeyPress(['ctrl.s', 'meta.s'], (event: KeyboardEvent) => {
+    event.preventDefault()
+    if (!loading) save()
+  })
+  return (
+    <Button
+      type="primary"
+      onClick={save}
+      disabled={loading}
+      icon={loading ? <LoadingOutlined /> : null}
+    >
+      保存
+    </Button>
+  )
+}
+
 const EditHeader: FC = () => {
   const nav = useNavigate()
 
@@ -63,7 +100,7 @@ const EditHeader: FC = () => {
         </div>
         <div className={styles.right}>
           <Space>
-            <Button>保存</Button>
+            <SaveButton />
             <Button type="primary">发布</Button>
           </Space>
         </div>
