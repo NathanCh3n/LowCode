@@ -13,7 +13,6 @@ import { useKeyPress } from 'ahooks'
  * @returns
  *  true: 光标在 input 上
  *  false: 光标不在 input 上
- *
  */
 function isActiveElementValid() {
   const activeElement = document.activeElement
@@ -21,6 +20,8 @@ function isActiveElementValid() {
   if (activeElement === document.body) {
     return true
   }
+  // matches() 方法检查节点是否与指定选择器匹配
+  if (activeElement?.matches('div[role="button"]')) return true
   return false
 }
 

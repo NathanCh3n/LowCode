@@ -2,6 +2,14 @@
   min-height: 100%;
   background-color: #fff;
   overflow: hidden;
+
+  /* 画布及其所有子元素的焦点样式处理 */
+  &:focus, &:focus-visible, 
+  & *:focus, & *:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: inherit;
+  }
 }
 
 .component-wrapper {
@@ -9,6 +17,13 @@
   border: 1px solid #fff;
   padding: 12px;
   border-radius: 3px;
+
+  /* 禁用所有焦点相关样式 */
+  &:focus, &:focus-visible, &:focus-within {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
   &:hover {
     border: 1px solid #d9d9d9;
   }
@@ -16,6 +31,9 @@
 
 .selected {
   border-color: #1890ff !important;
+
+  /* 确保选中状态下不会有额外的焦点样式 */
+  outline: none !important;
 }
 
 .locked {

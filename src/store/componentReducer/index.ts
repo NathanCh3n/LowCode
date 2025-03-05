@@ -128,7 +128,7 @@ export const componentsSlice = createSlice({
     selectNextComponent: (draft: ComponentsStateType) => {
       const { selectedId, componentList } = draft
       const index = componentList.findIndex(c => c.fe_id === selectedId)
-      if (index <= 0) return
+      if (index >= componentList.length - 1) return
       if (index === componentList.length - 1) return
       const nextComponent = componentList[index + 1]
       if (nextComponent) {

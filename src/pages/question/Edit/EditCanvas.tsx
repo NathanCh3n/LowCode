@@ -72,7 +72,9 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
                 <div
                   key={fe_id}
                   className={wrapperClassName}
-                  onClick={e => handleClick(e, fe_id || '')}
+                  onClick={e => {
+                    handleClick(e, fe_id || '')
+                  }}
                 >
                   <div className={styles.component}>{getComponent(c)}</div>
                 </div>
