@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { Button, Result, Spin } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useTitle } from 'ahooks'
+import StatHeader from './StatHeader'
 import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
 import useGetPageInfo from '../../../hooks/useGetPageInfo'
 import styles from './index.module.scss'
@@ -21,7 +22,6 @@ const Edit: FC = () => {
 
   // Content Elem
   function genContentElem() {
-    console.log('isPublished', isPublished)
     if (typeof isPublished === 'boolean' && !isPublished) {
       return (
         <Result
@@ -46,7 +46,7 @@ const Edit: FC = () => {
 
   return (
     <div className={styles.container}>
-      <div>Header</div>
+      <StatHeader></StatHeader>
       <div className={styles['content-wrapper']}>
         {loading && LoadingElem}
         {!loading && <div className={styles.content}>{genContentElem()}</div>}
