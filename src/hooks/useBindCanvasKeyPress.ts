@@ -7,6 +7,7 @@ import {
   selectNextComponent,
 } from '../store/componentReducer'
 import { useKeyPress } from 'ahooks'
+import { ActionCreators as UndoActionCreators } from 'redux-undo'
 
 /**
  * 判断光标是否在 input 上
@@ -52,6 +53,28 @@ const useBindCanvasKeyPress = () => {
     if (!isActiveElementValid()) return
     dispatch(selectNextComponent())
   })
+  // 撤销
+  useKeyPress(
+    ['ctrl.z', 'meta.z'],
+    () => {
+      if (!isActiveElementValid()) return
+      dispatch(UndoActionCreators.undo())
+    },
+    {
+      exactMatch: true,
+    }
+  )
+  // 重做
+  useKeyPress(
+    ['ctrl.shift.z', 'meta.shift.z'],
+    () => {
+      if (!isActiveElementValid()) return
+      dispatch(UndoActionCreators.redo())
+    },
+    {
+      exactMatch: true,
+    }
+  )
 }
 
 export default useBindCanvasKeyPress
