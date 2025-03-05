@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { Button, Result, Spin } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useTitle } from 'ahooks'
@@ -6,10 +6,17 @@ import StatHeader from './StatHeader'
 import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
 import useGetPageInfo from '../../../hooks/useGetPageInfo'
 import styles from './index.module.scss'
+import ComponentList from './ComponentList'
+import { useDispatch } from 'react-redux'
+import { changeSelectedId } from '../../../store/componentReducer'
 
 const Edit: FC = () => {
+  const dispatch = useDispatch()
   const { loading } = useLoadQuestionData()
   const { title, isPublished } = useGetPageInfo()
+  const [selectedComponentId, setSelectedComponentId] = useState('')
+  const [selectedCompnentType, setSelectedCompnentType] = useState('')
+  console.log('Edit', selectedCompnentType)
 
   useTitle(`问卷统计 - ${title}`)
   const nav = useNavigate()
@@ -19,7 +26,9 @@ const Edit: FC = () => {
       <Spin />
     </div>
   )
-
+  function clearSelectedId() {
+    dispatch(changeSelectedId(''))
+  }
   // Content Elem
   function genContentElem() {
     if (typeof isPublished === 'boolean' && !isPublished) {
@@ -37,7 +46,13 @@ const Edit: FC = () => {
     }
     return (
       <>
-        <div className={styles.left}>左侧</div>
+        <div className={styles.left}>
+          <ComponentList
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedCompnentType={setSelectedCompnentType}
+          />
+        </div>
         <div className={styles.main}>中间</div>
         <div className={styles.right}>右侧</div>
       </>
@@ -47,7 +62,7 @@ const Edit: FC = () => {
   return (
     <div className={styles.container}>
       <StatHeader></StatHeader>
-      <div className={styles['content-wrapper']}>
+      <div className={styles['content-wrapper']} onClick={clearSelectedId}>
         {loading && LoadingElem}
         {!loading && <div className={styles.content}>{genContentElem()}</div>}
       </div>
