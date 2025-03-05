@@ -5,6 +5,7 @@ export interface PageInfoType {
   des?: string
   js?: string
   css?: string
+  isPublished?: boolean
 }
 
 const INIT_STATE: PageInfoType = {
@@ -12,6 +13,7 @@ const INIT_STATE: PageInfoType = {
   des: 'des',
   js: 'js',
   css: 'css',
+  // isPublished: false,
 }
 
 const pageInfoSlice = createSlice({

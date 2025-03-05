@@ -21,7 +21,14 @@ function useLoadQuestionData() {
 
   useEffect(() => {
     if (!data) return
-    const { componentList = [], title = '', des = '', js = '', css = '' } = data
+    const {
+      componentList = [],
+      title = '',
+      des = '',
+      js = '',
+      css = '',
+      isPublished = false,
+    } = data
     // 获取默认的 id
     let selectedId = ''
     if (componentList.length > 0) {
@@ -37,7 +44,7 @@ function useLoadQuestionData() {
     })
     dispatch(action)
     // Redux 重置 pageInfo
-    dispatch(setPageInfo({ title, des, js, css }))
+    dispatch(setPageInfo({ title, des, js, css, isPublished }))
   }, [data])
 
   useEffect(() => {
