@@ -30,6 +30,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.29.0",
     "react-scripts": "5.0.1",
+    "recharts": "^2.15.1",
     "redux-undo": "^1.1.0",
     "sass": "^1.83.4",
     "styled-components": "^5.3.11",

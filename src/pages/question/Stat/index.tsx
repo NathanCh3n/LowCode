@@ -10,17 +10,17 @@ import ComponentList from './ComponentList'
 import { useDispatch } from 'react-redux'
 import { changeSelectedId } from '../../../store/componentReducer'
 import PageStat from './PageStat'
+import ChartStat from './ChartStat'
 
 const Edit: FC = () => {
   const dispatch = useDispatch()
   const { loading } = useLoadQuestionData()
   const { title, isPublished } = useGetPageInfo()
   const [selectedComponentId, setSelectedComponentId] = useState('')
-  const [, setSelectedCompnentType] = useState('')
+  const [selectedComponentType, setSelectedCompnentType] = useState('')
 
   useTitle(`问卷统计 - ${title}`)
   const nav = useNavigate()
-
   const LoadingElem = (
     <div style={{ textAlign: 'center', marginTop: '60px' }}>
       <Spin />
@@ -60,11 +60,15 @@ const Edit: FC = () => {
             setSelectedCompnentType={setSelectedCompnentType}
           />
         </div>
-        <div className={styles.right}>右侧</div>
+        <div className={styles.right}>
+          <ChartStat
+            selectedComponentId={selectedComponentId}
+            selectedComponentType={selectedComponentType}
+          />
+        </div>
       </>
     )
   }
-
   return (
     <div className={styles.container}>
       <StatHeader></StatHeader>
