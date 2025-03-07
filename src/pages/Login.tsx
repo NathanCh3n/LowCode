@@ -7,6 +7,8 @@ import { REGISTER_PATHNAME, MANAGE_INDEX_PATHNAME } from '../router'
 import { loginService } from '../services/user'
 import { useRequest } from 'ahooks'
 import { setToken } from '../utils/user-token'
+import { useDispatch } from 'react-redux'
+import { loginReducer } from '../store/userReducer'
 
 const { Title } = Typography
 
@@ -31,6 +33,7 @@ function getUserFromLocalStorage() {
 }
 
 const Login: FC = () => {
+  const dispatch = useDispatch()
   const [form] = Form.useForm() // 第三方 hook
   const nav = useNavigate()
   useEffect(() => {
@@ -46,9 +49,10 @@ const Login: FC = () => {
     {
       manual: true,
       onSuccess(res) {
-        const { token = '' } = res
+        const { token = '', username, nickname } = res
+        dispatch(loginReducer({ username, nickname }))
         setToken(token)
-        message.success('登陆成功')
+        message.success('登录成功')
         nav(MANAGE_INDEX_PATHNAME)
       },
     }

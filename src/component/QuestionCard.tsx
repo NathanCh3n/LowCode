@@ -29,7 +29,6 @@ type PropsType = {
 
 const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const { _id, title, isPublished, isStar, answerCount, createdAt } = props
-  console.log('isPublished123', isPublished)
   const nav = useNavigate()
   // 标星
   const [isStarState, setIsStarState] = useState(isStar)

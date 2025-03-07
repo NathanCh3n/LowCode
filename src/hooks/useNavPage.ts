@@ -7,15 +7,23 @@ import {
   LOGIN_PATHNAME,
 } from '../router'
 import useGetUserInfo from './useGetUserInfo'
+import { getToken } from '../utils/user-token'
 
 function useNavPage(waitingUserData: boolean) {
   const { username } = useGetUserInfo()
   const { pathname } = useLocation()
   const nav = useNavigate()
-
+  const token = getToken()
   useEffect(() => {
     if (waitingUserData) return
-    if (username) {
+    // if (username) {
+    //   if (isLoginOrRegister(pathname)) {
+    //     nav(MANAGE_INDEX_PATHNAME)
+    //   }
+    //   return
+    // }
+    // 同时检查username和token
+    if (username || token) {
       if (isLoginOrRegister(pathname)) {
         nav(MANAGE_INDEX_PATHNAME)
       }
