@@ -17,7 +17,6 @@ const ComponentList: FC<PropsType> = props => {
     setSelectedCompnentType,
   } = props
   const { componentList } = useGetComponentInfo()
-
   function handleClick(event: React.MouseEvent, id: string, type: string) {
     event.stopPropagation()
     setSelectedComponentId(id)

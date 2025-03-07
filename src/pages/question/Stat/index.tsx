@@ -9,14 +9,14 @@ import styles from './index.module.scss'
 import ComponentList from './ComponentList'
 import { useDispatch } from 'react-redux'
 import { changeSelectedId } from '../../../store/componentReducer'
+import PageStat from './PageStat'
 
 const Edit: FC = () => {
   const dispatch = useDispatch()
   const { loading } = useLoadQuestionData()
   const { title, isPublished } = useGetPageInfo()
   const [selectedComponentId, setSelectedComponentId] = useState('')
-  const [selectedCompnentType, setSelectedCompnentType] = useState('')
-  console.log('Edit', selectedCompnentType)
+  const [, setSelectedCompnentType] = useState('')
 
   useTitle(`问卷统计 - ${title}`)
   const nav = useNavigate()
@@ -53,7 +53,13 @@ const Edit: FC = () => {
             setSelectedCompnentType={setSelectedCompnentType}
           />
         </div>
-        <div className={styles.main}>中间</div>
+        <div className={styles.main}>
+          <PageStat
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedCompnentType={setSelectedCompnentType}
+          />
+        </div>
         <div className={styles.right}>右侧</div>
       </>
     )
