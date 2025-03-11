@@ -12,11 +12,8 @@ const { Title } = Typography
 const Lib: FC = () => {
   const dispatch = useDispatch()
   function genComponent(c: ComponentConfType) {
-    const { type, Component } = c
-
-    function handleClick(c: ComponentConfType) {
-      const { title, type, defaultProps } = c
-
+    const { type, Component, title, defaultProps } = c
+    function handleClick() {
       dispatch(
         addComponent({
           fe_id: nanoid(),
@@ -26,9 +23,8 @@ const Lib: FC = () => {
         })
       )
     }
-
     return (
-      <div key={type} className={styles.wrapper} onClick={() => handleClick(c)}>
+      <div key={type} className={styles.wrapper} onClick={() => handleClick()}>
         <div className={styles.component}>
           <Component />
         </div>

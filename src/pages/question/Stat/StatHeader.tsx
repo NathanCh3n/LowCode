@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react'
+import React, { FC, useRef, useMemo } from 'react'
 import {
   Space,
   Button,
@@ -28,7 +28,7 @@ const StatHeader: FC = () => {
     document.execCommand('copy')
     message.success('复制成功')
   }
-  function genLinkAndQRCodeElem() {
+  const LinkAndQRCodeElem = useMemo(() => {
     if (!isPublished) return null
     const url = `http://localhost:3000/questionnaire/${id}`
     const QRCodeElem = (
@@ -45,7 +45,8 @@ const StatHeader: FC = () => {
         </Popover>
       </Space>
     )
-  }
+  }, [id, isPublished])
+
   return (
     <div className={styles['header-wrapper']}>
       <div className={styles.header}>
@@ -57,7 +58,7 @@ const StatHeader: FC = () => {
             <Title>{title}</Title>
           </Space>
         </div>
-        <div className={styles.main}>{genLinkAndQRCodeElem()}</div>
+        <div className={styles.main}>{LinkAndQRCodeElem}</div>
         <div className={styles.right}>
           <Button
             type="primary"
