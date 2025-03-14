@@ -103,6 +103,7 @@ const PublishButton: FC = () => {
       if (!id) return
       await updateQuestionService(id, {
         ...pageInfo,
+        isPublished: true, // 明确设置问卷为发布状态
         componentList,
       })
     },
