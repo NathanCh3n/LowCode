@@ -54,7 +54,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
       manual: true,
       onSuccess: (res: any) => {
         message.success('复制成功')
-        nav(`/question/edit/${res.id}`)
+        nav(`/question/edit/${res.id || res._id}`)
       },
     }
   )

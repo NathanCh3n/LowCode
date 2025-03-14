@@ -3,6 +3,7 @@ import { message } from 'antd'
 import { getToken } from '../utils/user-token'
 
 const instance = axios.create({
+  baseURL: 'http://localhost:3005',
   timeout: 10000,
 })
 
@@ -10,7 +11,9 @@ instance.interceptors.request.use(
   config => {
     const token = getToken()
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
+      // 确保 headers 对象存在
+      config.headers = config.headers || {}
+      config.headers.Authorization = `Bearer ${token}`
     }
     return config
   },

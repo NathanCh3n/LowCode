@@ -33,15 +33,17 @@ const Edit: FC = () => {
   function genContentElem() {
     if (typeof isPublished === 'boolean' && !isPublished) {
       return (
-        <Result
-          status="warning"
-          title="该页面尚未发布"
-          extra={
-            <Button type="primary" onClick={() => nav(-1)}>
-              返回
-            </Button>
-          }
-        />
+        <div className={styles.centered}>
+          <Result
+            status="warning"
+            title="该页面尚未发布"
+            extra={
+              <Button type="primary" onClick={() => nav(-1)}>
+                返回
+              </Button>
+            }
+          />
+        </div>
       )
     }
     return (

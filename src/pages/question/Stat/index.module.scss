@@ -10,6 +10,14 @@
   padding: 20px;
 }
 
+// 在原有样式基础上新增
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .content {
   display: flex;
   margin: 0 24px;

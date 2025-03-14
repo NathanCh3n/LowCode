@@ -33,7 +33,7 @@ const ManageLayout: FC = () => {
     {
       manual: true,
       onSuccess: res => {
-        nav(`/question/edit/${res.id}`)
+        nav(`/question/edit/${res.id || res._id}`)
         message.success('创建成功')
       },
     }

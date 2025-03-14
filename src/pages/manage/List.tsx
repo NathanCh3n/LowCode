@@ -51,8 +51,8 @@ const List: FC = () => {
   // LoadMore Elem
   const LoadMoreContentElem = useMemo(() => {
     if (!started || loading) return <Spin />
-    if (total === 0) return <Empty>暂无数据</Empty>
     if (!haveMoreData) return <span>没有更多了...</span>
+    if (total === 0) return <Empty>暂无数据</Empty>
     return <span>开始加载下一页</span>
   }, [started, loading, haveMoreData])
 
@@ -66,7 +66,6 @@ const List: FC = () => {
       if (domRect === null) return
       const { bottom } = domRect
       if (bottom <= document.documentElement.clientHeight) {
-        console.log('执行加载...')
         load()
         setStarted(true)
       }

@@ -9,9 +9,9 @@ import { useDispatch } from 'react-redux'
 import { logoutReducer } from '../store/userReducer'
 
 const UserInfo: FC = () => {
+  const dispatch = useDispatch()
   const nav = useNavigate()
   const { username, nickname } = useGetUserInfo()
-  const dispatch = useDispatch()
   const logout = () => {
     dispatch(logoutReducer()) // 清空 redux user 中的数据
     removeToken() // 清空 token 的存储

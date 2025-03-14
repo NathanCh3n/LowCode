@@ -7,6 +7,13 @@ export async function getUserInfoService(): Promise<ResDataType> {
   return data
 }
 
+// 获取用户认证信息(用于登录)
+export async function getUserAuthService(): Promise<ResDataType> {
+  const url = '/api/auth/profile'
+  const data = (await axios.get(url)) as ResDataType
+  return data
+}
+
 // 注册用户
 export async function registerService(
   username: string,

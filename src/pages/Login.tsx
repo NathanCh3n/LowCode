@@ -4,7 +4,7 @@ import { Typography, Space, Form, Input, Button, Checkbox, message } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserAddOutlined } from '@ant-design/icons'
 import { REGISTER_PATHNAME, MANAGE_INDEX_PATHNAME } from '../router'
-import { loginService } from '../services/user'
+import { getUserInfoService, loginService } from '../services/user'
 import { useRequest } from 'ahooks'
 import { setToken } from '../utils/user-token'
 import { useDispatch } from 'react-redux'
@@ -48,12 +48,26 @@ const Login: FC = () => {
     },
     {
       manual: true,
-      onSuccess(res) {
-        const { token = '', username, nickname } = res
-        dispatch(loginReducer({ username, nickname }))
+      async onSuccess(res) {
+        // Mock 数据
+        // const { token = '', username, nickname } = res
+        // dispatch(loginReducer({ username, nickname }))
+        // setToken(token)
+        // message.success('登录成功')
+        // nav(MANAGE_INDEX_PATHNAME)
+
+        const { token = '' } = res.data || res
         setToken(token)
-        message.success('登录成功')
-        nav(MANAGE_INDEX_PATHNAME)
+        try {
+          const userInfo = await getUserInfoService()
+          const { username, nickname } = userInfo
+          dispatch(loginReducer({ username, nickname }))
+          message.success('登录成功')
+          nav(MANAGE_INDEX_PATHNAME)
+        } catch (error) {
+          console.error('获取用户信息失败', error)
+          message.error('登录成功，但获取用户信息失败')
+        }
       },
     }
   )

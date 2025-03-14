@@ -36,6 +36,30 @@ function useLoadQuestionListData(opt: Partial<optionType> = {}) {
         pageSize,
       })
       return data
+
+      // console.log('请求参数:', { keyword, isStar, isDeleted, page, pageSize })
+      // const result = await getQuestionListService({
+      //   keyword,
+      //   isStar,
+      //   isDeleted,
+      //   page,
+      //   pageSize,
+      // })
+      // console.log('获取问卷列表原始响应:', result)
+      // // 检查数据结构
+      // if (result.errno === 0) {
+      //   // 如果数据在 result.data 中
+      //   if (result.data && typeof result.data === 'object') {
+      //     console.log('处理后的数据:', result.data)
+      //     return result.data
+      //   }
+      //   // 如果数据直接在 result 中
+      //   console.log('直接使用响应数据:', result)
+      //   return result
+      // }
+
+      // console.error('API返回错误:', result)
+      // return {}
     },
     {
       refreshDeps: [searchParams],

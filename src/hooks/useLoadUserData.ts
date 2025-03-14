@@ -6,8 +6,8 @@ import useGetUserInfo from './useGetUserInfo'
 import { loginReducer } from '../store/userReducer'
 
 function useLoadUserData() {
-  const [waitingUserData, setWaitingUserData] = useState<boolean>(true)
   const dispatch = useDispatch()
+  const [waitingUserData, setWaitingUserData] = useState<boolean>(true)
 
   // 加载用户信息
   const { run } = useRequest(getUserInfoService, {
@@ -16,6 +16,9 @@ function useLoadUserData() {
       const { username, nickname } = res
       // 存储到 Redux 中
       dispatch(loginReducer({ username, nickname }))
+    },
+    onError: () => {
+      console.log('获取用户信息失败')
     },
     onFinally() {
       setWaitingUserData(false)
