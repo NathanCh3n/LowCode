@@ -3,7 +3,8 @@ import { useRequest } from 'ahooks'
 import { getUserInfoService } from '../services/user'
 import { useDispatch } from 'react-redux'
 import useGetUserInfo from './useGetUserInfo'
-import { loginReducer } from '../store/userReducer'
+import { removeToken } from '../utils/user-token'
+import { loginReducer, logoutReducer } from '../store/userReducer'
 
 function useLoadUserData() {
   const dispatch = useDispatch()
@@ -19,6 +20,8 @@ function useLoadUserData() {
     },
     onError: () => {
       console.log('获取用户信息失败')
+      removeToken() // 清除无效token
+      dispatch(logoutReducer()) // 重置用户状态
     },
     onFinally() {
       setWaitingUserData(false)
