@@ -53,6 +53,7 @@ const componentConfList: ComponentConfType[] = [
   QuestionCheckboxConf,
 ]
 
+// 组件库分类
 export const componentConfGroup = [
   {
     groupId: 'textGroup',
@@ -71,6 +72,7 @@ export const componentConfGroup = [
   },
 ]
 
+// 根据 type 获取组件配置
 export function getComponentConfByType(type: string) {
   return componentConfList.find(c => c.type === type)
 }

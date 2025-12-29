@@ -85,9 +85,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
       <div className={styles.title}>
         <div className={styles.left}>
           <Link
-            to={
-              isPublished ? `/quest ion/stat/${_id}` : `/question/edit/${_id}`
-            }
+            to={isPublished ? `/question/stat/${_id}` : `/question/edit/${_id}`}
           >
             <Space>
               {isStarState && <StarOutlined style={{ color: 'red' }} />}

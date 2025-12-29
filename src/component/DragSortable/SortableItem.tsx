@@ -7,7 +7,7 @@ type PropsType = {
   children: ReactNode
 }
 
-const SortableContainer: FC<PropsType> = ({ id, children }) => {
+const SortableItem: FC<PropsType> = ({ id, children }) => {
   // useSortable 用于创建可排序的容器, 返回的对象包含了容器的属性和事件
   // id 用于设置容器的 id
   // attributes 用于设置容器的属性
@@ -39,4 +39,4 @@ const SortableContainer: FC<PropsType> = ({ id, children }) => {
   )
 }
 
-export default SortableContainer
+export default SortableItem

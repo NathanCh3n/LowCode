@@ -36,7 +36,10 @@ const SortableContainer: FC<PropsType> = (props: PropsType) => {
     const { active, over } = event
     if (over === null) return
     if (active.id !== over.id) {
+      // activeIndex含义：当前拖拽的组件的索引
       const activeIndex = items.findIndex(item => item.id === active.id)
+      // overIndex含义：拖拽到的组件的索引
+      // activeIndex < overIndex 表示向后拖拽
       const overIndex = items.findIndex(item => item.id === over.id)
       onDragEnd(activeIndex, overIndex)
     }

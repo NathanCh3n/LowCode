@@ -10,10 +10,13 @@ export function getNextSelectedId(
   fe_id: string,
   componentList: ComponentInfoType[]
 ) {
+  // 过滤掉隐藏的组件
   const visibleComponentList = componentList.filter(c => !c.isHidden)
+  // 找到当前选中的组件
   const index = visibleComponentList.findIndex(c => c.fe_id === fe_id)
   if (index < 0) return ''
   if (index === visibleComponentList.length - 1) {
+    // 如果当前是最后一个组件，则选择上一个
     return visibleComponentList[index - 1].fe_id
   } else {
     return visibleComponentList[index + 1].fe_id

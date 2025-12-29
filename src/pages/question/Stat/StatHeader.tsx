@@ -30,7 +30,7 @@ const StatHeader: FC = () => {
   }
   const LinkAndQRCodeElem = useMemo(() => {
     if (!isPublished) return null
-    const url = `http://localhost:3000/questionnaire/${id}`
+    const url = `http://localhost:3000/question/${id}`
     const QRCodeElem = (
       <div style={{ textAlign: 'center' }}>
         <QRCodeSVG value={url} size={150} />

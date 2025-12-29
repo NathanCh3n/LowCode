@@ -1,4 +1,4 @@
-import { Button, Space, Tooltip, message } from 'antd'
+import { Button, Space, Tooltip } from 'antd'
 import {
   DeleteOutlined,
   EyeInvisibleOutlined,
@@ -57,21 +57,13 @@ const EditToolbar: FC = () => {
     dispatch(pasteCopiedComponent())
   }
   const handleUp = () => {
-    if (isFirst) {
-      message.warning('已经是第一个组件了')
-      return
-    }
     dispatch(
-      moveComponent({ oldIndex: selectIndex, newIndex: selectIndex + 1 })
+      moveComponent({ oldIndex: selectIndex, newIndex: selectIndex - 1 })
     )
   }
   const handleDown = () => {
-    if (isLast) {
-      message.warning('已经是最后一个组件了')
-      return
-    }
     dispatch(
-      moveComponent({ oldIndex: selectIndex, newIndex: selectIndex - 1 })
+      moveComponent({ oldIndex: selectIndex, newIndex: selectIndex + 1 })
     )
   }
   // 撤销

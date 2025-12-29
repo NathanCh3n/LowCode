@@ -18,12 +18,19 @@ const TitleElem: FC = () => {
   const dispatch = useDispatch()
   const [editTitle, setEditTitle] = useState(false)
   const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = e.target.value.trim()
-    if (newTitle === '') {
-      message.info('标题不能为空')
-      return
-    }
+    const newTitle = e.target.value
     dispatch(changePageTitle(newTitle))
+  }
+  // 新增失焦和回车时的校验
+  const handleBlur = () => {
+    const trimmedTitle = title.trim()
+    if (trimmedTitle.trim() === '') {
+      message.info('标题不能为空')
+      dispatch(changePageTitle('未命名问卷')) // 恢复默认标题
+    } else {
+      dispatch(changePageTitle(trimmedTitle)) // 保存去除空格后的标题
+    }
+    setEditTitle(false)
   }
   return editTitle ? (
     <Input
@@ -31,8 +38,8 @@ const TitleElem: FC = () => {
       value={title}
       onChange={changeTitle}
       onClick={e => e.stopPropagation()}
-      onPressEnter={() => setEditTitle(false)}
-      onBlur={() => setEditTitle(false)}
+      onPressEnter={() => handleBlur()}
+      onBlur={() => handleBlur()}
     />
   ) : (
     <Space>
@@ -66,9 +73,14 @@ const SaveButton: FC = () => {
       manual: true,
     }
   )
+  const handleSave = () => {
+    if (loading) return
+    save()
+    message.success('保存成功')
+  }
   useKeyPress(['ctrl.s', 'meta.s'], (event: KeyboardEvent) => {
     event.preventDefault()
-    if (!loading) save()
+    handleSave()
   })
   // 自动保存
   useDebounceEffect(
@@ -82,7 +94,7 @@ const SaveButton: FC = () => {
   return (
     <Button
       type="primary"
-      onClick={save}
+      onClick={handleSave}
       disabled={loading}
       icon={loading ? <LoadingOutlined /> : null}
     >

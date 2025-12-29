@@ -16,13 +16,15 @@ import { ActionCreators as UndoActionCreators } from 'redux-undo'
  *  false: 光标不在 input 上
  */
 function isActiveElementValid() {
+  // 获取当前活动元素
   const activeElement = document.activeElement
-  // 光标没有 focus 到 ipnut 上
+  // 如果焦点在文档主体上，说明用户没有在编辑任何输入框
   if (activeElement === document.body) {
     return true
   }
-  // matches() 方法检查节点是否与指定选择器匹配
+  // 如果焦点在按钮元素上，也允许执行快捷键
   if (activeElement?.matches('div[role="button"]')) return true
+  // 其他情况（如焦点在输入框上），不执行快捷键a
   return false
 }
 

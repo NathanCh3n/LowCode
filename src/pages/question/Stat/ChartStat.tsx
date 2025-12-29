@@ -24,10 +24,7 @@ const ChartStat: FC<PropsType> = props => {
       manual: true,
       refreshDeps: [id, selectedComponentId],
       onSuccess(res) {
-        console.log('res', res)
-
         const { stat } = res
-        console.log('stat', stat)
         setDataStat(stat)
       },
     }
@@ -78,7 +75,7 @@ const ChartStat: FC<PropsType> = props => {
       )}
       {!loading && dataStat.length === 0 && (
         <div style={{ textAlign: 'center' }}>
-          <Title level={4}>未选中组件</Title>
+          <Title level={4}>未选中图表组件</Title>
         </div>
       )}
       {!loading && dataStat.length > 0 && genContentElem()}

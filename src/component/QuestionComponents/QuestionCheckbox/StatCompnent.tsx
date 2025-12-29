@@ -27,11 +27,17 @@ const StatComponet: FC<QuestionCheckboxStatPropsType> = (
             top: 5,
             right: 30,
             left: 20,
-            bottom: 5,
+            bottom: 30,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis
+            dataKey="name"
+            angle={-45} // 标签倾斜45度
+            textAnchor="end"
+            interval={0} // 强制显示所有标签
+            tick={{ fontSize: 12 }} // 缩小字体
+          />
           <YAxis />
           <Tooltip />
           <Legend />

@@ -3,6 +3,7 @@ import { StateType } from '../store'
 import { ComponentsStateType } from '../store/componentReducer'
 
 function useGetComponentInfo() {
+  // useSelector 的用法：
   const components = useSelector<StateType>(
     (state: StateType) => state.components.present
   ) as ComponentsStateType
